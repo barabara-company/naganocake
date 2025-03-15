@@ -4,24 +4,26 @@ Rails.application.routes.draw do
   devise_for :customers
 
   # 会員側のルーティング
-  root :to =>"homes#top"
-  get "/about"=>"homes#about"
+  scope module: :public do
+    root :to =>"homes#top"
+    get "/about"=>"homes#about"
 
-  resources :items, only: [:index,:show]
+    resources :items, only: [:index,:show]
 
-  resources :customers, only: [:show,:edit,:update]
-  get "/customers/unsubscribe"=>"customers#unsubscribe"
-  patch "/customers/withdraw"=>"customers#withdraw"
+    resources :customers, only: [:show,:edit,:update]
+    get "/customers/unsubscribe"=>"customers#unsubscribe"
+    patch "/customers/withdraw"=>"customers#withdraw"
 
-  resources :cart_items, only: [:index,:update,:create,:destroy]
-  delete "/cart_items/destroy_all"=>"cart_items#destroy_all"
+    resources :cart_items, only: [:index,:update,:create,:destroy]
+    delete "/cart_items/destroy_all"=>"cart_items#destroy_all"
 
-  resources :orders, only: [:new,:create,:index,:show]
-  post "/oreders/confirm"=>"orders#confirm"
-  get "/oreders/thanks"=>"orders#thanks"
+    resources :orders, only: [:new,:create,:index,:show]
+    post "/oreders/confirm"=>"orders#confirm"
+    get "/oreders/thanks"=>"orders#thanks"
 
-  resources :addresses, only: [:index,:edit,:create,:update,:destroy]
-
+    resources :addresses, only: [:index,:edit,:create,:update,:destroy]
+  end
+  
   # 管理者側のルーティング
   namespace :admin do
     root to: 'homes#top' # /admin → admin/homes#top
