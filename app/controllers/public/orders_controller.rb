@@ -5,7 +5,7 @@ class Public::OrdersController < ApplicationController
   def confirm
   end
 
-  def finish
+  def thanks
   end
  
   def create
