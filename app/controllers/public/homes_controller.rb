@@ -1,7 +1,9 @@
-class HomesController < ApplicationController
-  def top
-  end
+module Public
+  class HomesController < ApplicationController
+    def top
+    end
 
-  def about
+    def about
+    end
   end
 end
