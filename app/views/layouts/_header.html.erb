@@ -1,0 +1,64 @@
+<header>
+
+  <% if customers_signed_in? %>
+    <!-- カスタマー用メニュー -->
+    <%= link_to "LOGO", root_path %>
+    <%= "ようこそ#{current_user.last_name}さん！" %>
+    <ul>
+      <li>
+        <%= link_to "マイページ", customer_path %>
+      </li>
+      <li>
+        <%= link_to "商品一覧", items_path %>
+      </li>
+      <li>
+        <%= link_to "カート", cart_items_path %>
+      </li>
+      <li>
+        <%= link_to "ログアウト", destroy_customer_session_path %>
+      </li>
+    </ul>
+    <% form_with url: search_path, method: :get, local: true do |f| %>
+      <%= f.submit 'search' %>
+    <% end %>
+
+  <% elsif admins_signed_in? %>
+    <!-- 管理者用メニュー -->
+    <h1>LOGO</h1>
+    <ul>
+      <li>
+        <%= link_to "商品一覧", admin_items %>
+      </li>
+      <li>
+        <%= link_to "会員一覧", admin_customers %>
+      </li>
+      <li>
+        <%= link_to "注文履歴一覧", 
+      </li>
+      <li>ジャンル一覧</li>
+      <li>ログアウト</li>
+    </ul>
+    <!-- 検索窓(空でいい) -->
+  <% else %>
+
+    <!-- ログイン前 -->
+    <%= link_to "LOGO", root_path %>
+    <ul>
+      <li>
+        <%= link_to "About",about_path %>
+      </li>
+      <li>
+        <%= link_to "商品一覧", items_path %>
+      </li>
+      <li>
+        <%= link_to "新規登録",new_customer_registration %>
+      </li>
+      <li>
+        <%= link_to "ログイン", new_customer_session %>
+      </li>
+    </ul>
+    <% form_with url: search_path, method: :get, local: true do |f| %>
+      <%= f.submit 'search' %>
+    <% end %>
+  <% end %>
+</header>
