@@ -1,7 +1,10 @@
-class HomesController < ApplicationController
-  def top
-  end
+module Public
+  class HomesController < ApplicationController
+    def top
+      @items = Item.order(created_at: :desc).limit(4)
+    end
 
-  def about
+    def about
+    end
   end
 end
