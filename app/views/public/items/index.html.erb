@@ -1,0 +1,21 @@
+<h1>商品一覧</h1>
+
+<!-- 登録商品数 -->
+<%= "(全#{@items.count}件)" %>
+
+<!-- 登録商品リスト -->
+<% @items.each do |item| %>
+
+  <!-- 商品画像 variantでサイズ変更 -->
+  <%= link_to item_path(item) do %>
+    <%= image_tag item.image.variant(resize: "200x200") %>
+  <% end %><br>
+
+  <%= item.name %><br>
+
+  <!-- 金額に税10%を足してカンマを付けるメソッド formatted_price-->
+  ¥<%= item.formatted_price %>
+<% end %>
+
+<!-- ページネーション -->
+<%= paginate @items %>
