@@ -1,0 +1,46 @@
+<h5>配送先登録/一覧</h5>
+<%= form_with(model: @new_address, url: addresses_path, local: true) do |f| %>
+  <div>
+    <%= f.label :postal_code, "郵便番号(ハイフンなし)" %>
+    <%= f.text_field :postal_code, required: true, pattern: '\d{7}', maxlength: 7, title: '7桁の数字のみ入力してください' %>
+  </div>
+
+  <div>
+    <%= f.label :address, "住所" %>
+    <%= f.text_field :address, required: true %>
+  </div>
+
+  <div>
+    <%= f.label :name, "宛名" %>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= f.submit '新規登録', class: "btn btn-success" %>
+  </div>
+<% end %>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>郵便番号</th>
+      <th>住所</th>
+      <th>宛名</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @addresses.each do |address| %>
+      <tr>
+        <td><%= address.postal_code %></td>
+        <td><%= address.address %></td>
+        <td><%= address.name %></td>
+        <td>
+          <%= link_to '編集する', edit_address_path(address), class: "btn btn-success" %>
+          <%= button_to '削除する', address, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
