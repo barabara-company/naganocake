@@ -1,7 +1,7 @@
 <h1>会員情報編集</h1>
 
 <!-- 会員情報編集フォーム -->
-<% form_with model: @customer do |f| %>
+<%= form_with model: @customer do |f| %>
   <p>氏名
     <%= f.text_field :last_name %>
     <%= f.text_field :first_name %>
@@ -25,4 +25,5 @@
 <% end %>
 
 <%= link_to "編集内容を保存", customer_path(current_customer), metod: :patch %>
+
 <%= link_to "退会する", customers_unsubscribe_path %>

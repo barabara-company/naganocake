@@ -1,6 +1,6 @@
 class Public::CustomersController < ApplicationController
 
-  before_action :authenticate_user!  #ログインしてなかったらログイン画面へ移行
+  before_action :authenticate_customer!  #ログインしてなかったらログイン画面へ移行
 
   def show
     @customer = current_customer
