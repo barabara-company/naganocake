@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   devise_for :admins
-  devise_for :customers
+  devise_for :customers, controllers: { sessions: 'public/devise/sessions' }
 
   # 会員側のルーティング
   scope module: :public do
