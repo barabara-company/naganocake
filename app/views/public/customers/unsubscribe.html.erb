@@ -1,0 +1,10 @@
+<h1>本当に退会しますか？</h1>
+<p>退会すると、会員登録情報や</p>
+<p>これまでの購入履歴が閲覧できなくなります。</p>
+<p>退会する場合は、「退会する」をクリックしてください。</p>
+<span>
+  <%= link_to "退会しない", customer_path %>
+</span>
+<span>
+  <%= link_to "退会する", customers_withdraw_path, method: :patch %>
+</span>
