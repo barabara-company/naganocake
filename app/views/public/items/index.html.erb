@@ -6,9 +6,9 @@
 <!-- 登録商品リスト -->
 <% @items.each do |item| %>
 
-  <!-- 商品画像 variantでサイズ変更 -->
+  <!-- 商品画像 variantでサイズ変更 processedで未処理の画像がある場合でもエラーにならない -->
   <%= link_to item_path(item) do %>
-    <%= image_tag item.image.variant(resize: "200x200") %>
+    <%= image_tag item.image.variant(resize: "300x300").processed %>
   <% end %><br>
 
   <%= item.name %><br>

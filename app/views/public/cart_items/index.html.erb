@@ -1,4 +1,59 @@
-<h1>カート</h1>
+<% if notice %>
+  <div><%= notice %></div>
+<% end %>
+<h1>ショッピングカート</h1>
+
+<%= link_to "カートを空にする", cart_items_destroy_all_path, method: :delete %>
+
+<% if @cart_items.empty? %>
+  <p>カートに商品が入ってません。</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>商品名</th>
+        <th>単価(税込み)</th>
+        <th>数量</th>
+        <th>小計</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @cart_items.each do |cart_item| %>
+      <tbody>
+        <tr>
+          <!-- 商品名 -->
+          <td>
+            <%= image_tag cart_item.item.image.variant(resize: "50x50").processed %>
+            <%= cart_item.item.name %>
+          </td>
+          <!-- 単価税込 -->
+          <td><%= cart_item.item.formatted_price %></td>
+          <!-- 数量選択 -->
+          <td>
+            <%= form_with model: cart_item, method: :patch, local: true do |f| %>
+              <%= f.select :amount, *[1..10], selected: cart_item.amount %>
+              <%= f.submit "変更" %>
+            <% end %>
+          </td>
+          <!-- 小計 -->
+          <td><%= number_with_delimiter(cart_item.item.tax_included_price * cart_item.amount) %></td>
+          <!-- 削除ボタン -->
+          <td><%= link_to "削除する", cart_item_path(cart_item), method: :delete %></td>
+        </tr>
+      </tbody>
+    <% end %>
+  </table>
+<% end %>
+
+
+
+
+
+
+
+
+
+
 
 <% if @cart_items.empty? %>
   <p>カートには商品がありません。</p>
