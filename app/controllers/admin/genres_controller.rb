@@ -18,14 +18,15 @@ class Admin::GenresController < ApplicationController
     @genre = Genre.find(params[:id])  # 編集するジャンルを取得
   end
 
-def update
-  @genre = Genre.find(params[:id])
-  if @genre.update(genre_params)
-    redirect_to admin_genres_path  # ジャンル一覧へリダイレクト
-  else
-    render :edit  # 更新に失敗した場合は再度編集フォームを表示
+  def update
+    @genre = Genre.find(params[:id])
+    if @genre.update(genre_params)
+      redirect_to admin_genres_path  # ジャンル一覧へリダイレクト
+    else
+      render :edit  # 更新に失敗した場合は再度編集フォームを表示
+    end
   end
-end
+
   private
 
   def genre_params
