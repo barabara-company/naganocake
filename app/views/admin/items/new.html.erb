@@ -1,2 +1,35 @@
-<h1>Admin::Items#new</h1>
-<p>Find me in app/views/admin/items/new.html.erb</p>
+<h1>商品新規登録</h1>
+
+
+
+     ここでルーティングエラー発生中！！！！！！！！
+<%= form_with url: admin_items_path, method: :post, local: true, html: { multipart: true } do |f| %>
+  <%= f.label :image, "商品画像" %>
+  <!-- 画像 acceptで画像ファイルのみ選択 -->
+  <%= f.file_field :image, accept: "image/*" %>
+
+  <%= f.label :name, "商品名" %>
+  <!-- 商品名 placeholderで入力フィールドにガイドを表示 -->
+  <%= f.text_field :name, placeholder: "商品名" %>
+
+  <%= f.label :introduction, "商品説明" %>
+  <%= f.text_area :introduction, placeholder: "ここに説明分を記述します" %>
+
+  <%= f.label :genre_id, "ジャンル" %>
+  <!-- 補足 options_from_collection_for_select(コレクション, 値の属性, 表示する属性, 初期選択値) -->
+  <%= f.select :genre_id, options_from_collection_for_select(Genre.all, :id, :name, @item.genre_id) %>
+
+  <%= f.label :price, "税抜価格" %>
+  <!-- minで0以上の数値に設定 stepで小数点以下を入力できないように -->
+  <%= f.number_field :price, placeholder: "1000", min: 0, step: 1 %>
+
+  <%= f.label :is_active, "販売ステータス" %>
+  <!-- 販売中 -->
+  <%= f.radio_button :is_active, true %>
+  <%= f.label :is_active_selling, "販売中" %>
+  <!-- 販売中止 -->
+  <%= f.radio_button :is_active, false %>
+  <%= f.label :is_active_stopped, "販売停止中" %>
+
+  <%= f.submit "新規登録" %>
+<% end %>
