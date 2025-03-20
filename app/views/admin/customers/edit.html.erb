@@ -22,8 +22,8 @@
     <%= f.text_field :email %>
   </p>
   <p>会員ステータス
-      <%= f.radio_button :address_option, "true", checked: (@customer.is_active == true) %>有効
-      <%= f.radio_button :address_option, "false", checked: (@customer.is_active == false) %>無効
+      <%= f.radio_button :is_active, "true", checked: (@customer.is_active == true) %>有効
+      <%= f.radio_button :is_active, "false", checked: (@customer.is_active == false) %>無効
   </p>
   <%= f.submit "変更を保存", class: "btn btn-sm btn-success" %>
 <% end %>
