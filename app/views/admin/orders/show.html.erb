@@ -1,2 +1,54 @@
-<h1>Admin::Orders#show</h1>
-<p>Find me in app/views/admin/orders/show.html.erb</p>
+<h2>注文詳細</h2>
+
+<table>
+  <tr>
+    <th>購入者</th>
+    <td><%= @order.customer.name %></td>
+  </tr>
+  <tr>
+    <th>注文日</th>
+    <td><%= @order.created_at.strftime("%Y-%m-%d") %></td>
+  </tr>
+  <tr>
+    <th>配送先</th>
+    <td><%= @order.postal_code %> <%= @order.address %></td>
+  </tr>
+  <tr>
+    <th>支払方法</th>
+    <td><%= @order.payment_method == 0 ? "クレジットカード" : "銀行振込" %></td>
+  </tr>
+  <tr>
+    <th>注文ステータス</th>
+    <td>
+      <%= form_with model: @order, url: admin_order_path(@order), method: :patch do |f| %>
+        <%= f.select :status, Order.statuses.keys.map { |key| [Order.statuses[key], key] }, {}, class: "form-control" %>
+        <%= f.submit "更新", class: "btn btn-primary" %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<h3>注文商品</h3>
+<table>
+  <tr>
+    <th>商品名</th>
+    <th>単価（税込）</th>
+    <th>数量</th>
+    <th>小計</th>
+    <th>制作ステータス</th>
+  </tr>
+  <% @order.order_details.each do |detail| %>
+    <tr>
+      <td><%= detail.item.name %></td>
+      <td><%= number_to_currency(detail.unit_price, unit: "¥") %></td>
+      <td><%= detail.quantity %></td>
+      <td><%= number_to_currency(detail.subtotal, unit: "¥") %></td>
+      <td>
+        <%= form_with model: detail, url: admin_order_detail_path(detail), method: :patch do |f| %>
+          <%= f.select :production_status, OrderDetail.production_statuses.keys.map { |key| [OrderDetail.production_statuses[key], key] }, {}, class: "form-control" %>
+          <%= f.submit "更新", class: "btn btn-secondary" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

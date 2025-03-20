@@ -10,4 +10,6 @@ class Order < ApplicationRecord
     shipped: 4 
   }
 
+  enum payment_method: { credit_card: 0, bank_transfer: 1 }
+
 end
