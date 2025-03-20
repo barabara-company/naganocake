@@ -1,9 +1,6 @@
 <h1>商品新規登録</h1>
-
-
-
-     ここでルーティングエラー発生中！！！！！！！！
-<%= form_with url: admin_items_path, method: :post, local: true, html: { multipart: true } do |f| %>
+<!-- urlをadmin_items_pathに指定しないと /items になってしまう -->
+<%= form_with model: @item, url: admin_items_path, method: :post, local: true, html: { multipart: true } do |f| %>
   <%= f.label :image, "商品画像" %>
   <!-- 画像 acceptで画像ファイルのみ選択 -->
   <%= f.file_field :image, accept: "image/*" %>

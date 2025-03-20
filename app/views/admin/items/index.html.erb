@@ -23,8 +23,8 @@
           <% end %>
         </td>
 
-        <!-- 税抜価格 -->
-        <td><%= item.price %></td>
+        <!-- 税抜価格 number_with_delimiterで3行ごとに , 入れる-->
+        <td><%= number_with_delimiter(item.price)%></td>
 
         <!-- ジャンル -->
         <td><%= item.genre.name %></td>
