@@ -1,16 +1,51 @@
-<h1>注文内容の確認</h1>
-<p>郵便番号:</p><%=@order.postal_code%>
-<p>住所:</p><%=@order.address%>
-<p>受取人名:</p><%=@order.name%>
-<p>合計金額:</p><%=@order.total_payment%>
+<h1>注文情報確認</h1>
+<table class='table table-hover table-inverse'>
+  <thead>
+    <tr>
+      <th>商品名</th>
+      <th>単価（税込）</th>
+      <th>数量</th>
+      <th>小計</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cart_items.each do |cart_item| %>
+      <tr>
+        <td><%= cart_item.name %></td>
+        <td><%= cart_item.item.price %></td>
+        <td><%= cart_item.item.price %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-  <%= form_with model: @order, url: "/orders", method: :post do |f| %>
+<table class='table table-hover table-inverse'>
+    <tr>
+      <th>送料</th>
+      <th><td><%= @order.shipping_cost %></td></th>
+    </tr>
+    <tr>
+      <th>商品合計</th>
+      <th></th>
+    </tr>
+    <tr>
+      <th>請求金額</th>
+      <th><%= @order.total_payment %></th>
+    </tr>
+
+  </tbody>
+</table>
+<p><strong>支払方法</strong></p><%=@order.payment_method%>
+<p><strong>お届け先</strong></p><%= @order.postal_code || "データなし" %> <%=@order.address || "データなし"%><br><%=@order.name || "データなし"%>
+
+ <%= form_with model: @order, url: orders_path, method: :post do |f| %>
     <%= f.hidden_field :postal_code %>
     <%= f.hidden_field :address %>
     <%= f.hidden_field :name %>
     <%= f.hidden_field :shipping_cost %>
     <%= f.hidden_field :total_payment %>
-    <%= f.submit "注文を確定する" %>
+    <%= f.submit "注文を確定する",  class: "btn btn-sm btn-success" %>
   <% end %>
 
   <%= link_to "戻る", new_order_path %>

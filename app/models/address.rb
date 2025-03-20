@@ -7,4 +7,5 @@ class Address < ApplicationRecord
   def address_display
     '〒' + postal_code + '' + address + '' + name
   end
+  attr_accessor :address_option
 end

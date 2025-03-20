@@ -7,12 +7,17 @@ class Public::OrdersController < ApplicationController
   end
  
   def confirm
+    session[:order_params] = params[:order] if params[:order].present?
+
     if session[:order_params].present?
-      @order = Order.new(session[:order_params])
+      order_params = session[:order_params].permit!.to_h.symbolize_keys
+      order_params[:payment_method] = order_params[:payment_method].to_i
+      @order = Order.new(order_params.except(:address_option, :address_id, :new_postal_code, :new_address, :new_name))
     else
       flash[:alert] = "注文情報が見つかりません"
       redirect_to new_order_path
     end
+    @cart_items = current_customer.cart_items()
   end
 
   def thanks
@@ -30,7 +35,7 @@ class Public::OrdersController < ApplicationController
       @order.address = current_customer.address
       @order.name = "#{current_customer.last_name} #{current_customer.first_name}"
     when "saved"
-      address = current_customer.find_by(id: params[:order][:address_id])
+      address = current_customer.addresses.find_by(id: params[:order][:address_id])
       if address
         @order.postal_code = address.postal_code
         @order.address = address.address
@@ -52,6 +57,7 @@ class Public::OrdersController < ApplicationController
       flash[:alert] = "住所の選択が必要です"
       render :new and return
     end
+    Rails.logger.debug "Session order_params: #{session[:order_params].inspect}"
     session[:order_params] = @order.attributes
     redirect_to orders_confirm_path
   end

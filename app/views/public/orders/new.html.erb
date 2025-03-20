@@ -28,7 +28,7 @@
             <%= f.text_field :new_address, placeholder: "東京都渋谷区代々木神園町0-0", class: "form-control rounded address-input", id: "new_address", value: @order.address %>
             <%= f.text_field :new_name, placeholder: "令和道子", id: "new_recipient_name", value: @order.name%>
           </div>
-        <%= f.submit "確認画面へ進む" %>
+        <%= f.submit "確認画面へ進む", class: "btn btn-sm btn-primary" %>
       <% end %>
     </div>
   </div>
