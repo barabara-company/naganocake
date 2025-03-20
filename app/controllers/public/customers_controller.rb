@@ -11,7 +11,7 @@ class Public::CustomersController < ApplicationController
   end 
 
   def update
-    current_customer.update
+    current_customer.update(customer_params)
     redirect_to customer_path(current_customer)
   end
     
