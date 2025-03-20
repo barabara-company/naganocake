@@ -1,0 +1,35 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-3'>
+      <%= form_with(model: @order, url: orders_confirm_path, method: :post) do |f|%>
+        <h3 class=m-2><strong>注文情報入力</strong></h3>
+        <h4 class=m-2><strong>支払い方法</strong></h4>
+        <% Order.payment_methods.each do |key, value|%>
+        <label class=m-2>
+          <%= f.radio_button :payment_method, value %>
+          <%= t("activerecord.attributes.order.payment_method.#{key}") %>
+        </label>
+        <% end %>
+        <h4 class=m-2><strong>お届け先</strong></h4>
+        <label>
+          <%= f.radio_button :address_option, "registered" %>ご自身の住所<%= current_customer&.address || "住所情報なし" %>
+        </label>
+        <label>
+          <%= f.radio_button :address_option, "saved" %>登録済み住所から選択
+            <div id = "other_address_fields" >
+              <%= f.select :address_id, options_from_collection_for_select(current_customer.addresses, :id, :address_display), { include_blank: "選択してください" } %>
+            </div>
+        </label>
+        <label>
+          <%= f.radio_button :address_option, "new" %>新しい住所を入力
+        </label>
+          <div id="new_address_fields">
+            <%= f.text_field :new_postal_code, placeholder: "0000000", class: "form-control rounded", id: "new_postal_code", value: @order.postal_code %>
+            <%= f.text_field :new_address, placeholder: "東京都渋谷区代々木神園町0-0", class: "form-control rounded address-input", id: "new_address", value: @order.address %>
+            <%= f.text_field :new_name, placeholder: "令和道子", id: "new_recipient_name", value: @order.name%>
+          </div>
+        <%= f.submit "確認画面へ進む" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -31,11 +31,11 @@
   </tr>
     <tr>
     <th>会員ステータス</th>
-    <% if @customer.is_active == true %>
-      <th><%= "有効" %></th>
-    <% elsif @customer.is_active == false %>
-      <th><%= "無効" %></th>
-    <% end %>
+      <% if @customer.is_active == true %>
+        <td class="text-success"><strong><%= "有効" %></strong></td>
+      <% else %>
+        <td class="text-secondary"><strong><%= "無効" %></strong></td>
+      <% end %>
   </tr>
 </table>
 

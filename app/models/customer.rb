@@ -12,6 +12,8 @@ class Customer < ApplicationRecord
     super && is_active?
   end
 
+  has_many :orders,  dependent: :destroy
+  has_many :addresses,  dependent: :destroy
 
   validates :last_name, :first_name, :last_name_kana, :first_name_kana, :postal_code, :address, :telephone_number, presence: true
   validates :postal_code, format: { with: /\A\d{7}\z/, message: "must be 7 digits" }

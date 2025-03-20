@@ -1,0 +1,16 @@
+<h1>注文内容の確認</h1>
+<p>郵便番号:</p><%=@order.postal_code%>
+<p>住所:</p><%=@order.address%>
+<p>受取人名:</p><%=@order.name%>
+<p>合計金額:</p><%=@order.total_payment%>
+
+  <%= form_with model: @order, url: "/orders", method: :post do |f| %>
+    <%= f.hidden_field :postal_code %>
+    <%= f.hidden_field :address %>
+    <%= f.hidden_field :name %>
+    <%= f.hidden_field :shipping_cost %>
+    <%= f.hidden_field :total_payment %>
+    <%= f.submit "注文を確定する" %>
+  <% end %>
+
+  <%= link_to "戻る", new_order_path %>
