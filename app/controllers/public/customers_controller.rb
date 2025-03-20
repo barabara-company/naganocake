@@ -11,10 +11,13 @@ class Public::CustomersController < ApplicationController
   end 
 
   def update
-    current_customer.update(customer_params)
-    redirect_to customer_path(current_customer)
-  end
-    
+    if current_customer.update(customer_params)
+      redirect_to customer_path(current_customer)
+    else
+      render :edit
+    end
+  end  
+
   def unsubscribe
   end
     
@@ -22,5 +25,18 @@ class Public::CustomersController < ApplicationController
     current_customer.update(is_active: false) #会員ステータスをfalseに変更
     reset_session #ログアウト処理
     redirect_to root_path
+  end
+
+  private
+  def customer_params
+    params.require(:customer).permit(
+    :last_name,
+    :first_name,
+    :last_name_kana,
+    :first_name_kana,
+    :postal_code,
+    :address,
+    :telephone_number,
+    :email)
   end
 end
