@@ -12,6 +12,7 @@ class Public::OrdersController < ApplicationController
     else
       flash[:alert] = "注文情報が見つかりません"
       redirect_to new_order_path
+    end
   end
 
   def thanks
@@ -51,12 +52,9 @@ class Public::OrdersController < ApplicationController
       flash[:alert] = "住所の選択が必要です"
       render :new and return
     end
-  
     session[:order_params] = @order.attributes
     redirect_to orders_confirm_path
   end
-  
-
  
   def index
   end
@@ -65,8 +63,8 @@ class Public::OrdersController < ApplicationController
   end
 
   private
-
   def order_params
-    params.require(:order).permit(:payment_method)
+    params.require(:order).permit(:payment_method, :address_option, :address_id, :new_postal_code, :new_address, :new_recipient_name)
   end
+  
 end

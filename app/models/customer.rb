@@ -6,7 +6,6 @@ class Customer < ApplicationRecord
 
   has_many :cart_items, dependent: :destroy
 
-
   # is_activeがtrueでないとログインできない用に設定
   def active_for_authentication?
     super && is_active?
