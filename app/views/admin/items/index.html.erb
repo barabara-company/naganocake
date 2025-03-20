@@ -1,2 +1,40 @@
-<h1>Admin::Items#index</h1>
-<p>Find me in app/views/admin/items/index.html.erb</p>
+<h1>商品一覧</h1>
+
+<table>
+  <thead>
+      <tr>
+        <th>商品ID</th>
+        <th>商品名</th>
+        <th>税抜価格</th>
+        <th>ジャンル</th>
+        <th>ステータス</th>
+      </tr>
+  </thead>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <!-- 商品ID -->
+        <td><%= item.id %></td>
+
+        <!-- 商品名 showページへリンク-->
+        <td>
+          <%= link_to admin_item_path(item) do %>
+            <%= item.name %>
+          <% end %>
+        </td>
+
+        <!-- 税抜価格 number_with_delimiterで3行ごとに , 入れる-->
+        <td><%= number_with_delimiter(item.price)%></td>
+
+        <!-- ジャンル -->
+        <td><%= item.genre.name %></td>
+
+        <!-- ステータス 三項演算子を使用 左true 右false -->
+        <td><%= item.is_active ? "販売中" : "販売中止中" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- ページネーション -->
+<%= paginate @items %>
