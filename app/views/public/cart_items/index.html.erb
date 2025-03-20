@@ -12,7 +12,7 @@
     <thead>
       <tr>
         <th>商品名</th>
-        <th>単価(税込み)</th>
+        <th>単価(税込)</th>
         <th>数量</th>
         <th>小計</th>
         <th></th>
@@ -27,7 +27,7 @@
             <%= cart_item.item.name %>
           </td>
           <!-- 単価税込 -->
-          <td><%= cart_item.item.formatted_price %></td>
+          <td><%= number_with_delimiter(cart_item.item.price) %></td>
           <!-- 数量選択 -->
           <td>
             <%= form_with model: cart_item, method: :patch, local: true do |f| %>
@@ -36,13 +36,17 @@
             <% end %>
           </td>
           <!-- 小計 -->
-          <td><%= number_with_delimiter(cart_item.item.tax_included_price * cart_item.amount) %></td>
+          <td><%= number_with_delimiter(cart_item.item.tax_included_price.floor * cart_item.amount.floor) %></td>
           <!-- 削除ボタン -->
           <td><%= link_to "削除する", cart_item_path(cart_item), method: :delete %></td>
         </tr>
       </tbody>
     <% end %>
   </table>
+
+  <%= link_to "買い物を続ける", root_path %>
+
+  <%= link_to "情報入力に進む", new_order_path %>
 <% end %>
 
 
@@ -55,14 +59,3 @@
 
 
 
-<% if @cart_items.empty? %>
-  <p>カートには商品がありません。</p>
-<% else %>
-  <ul>
-    <% @cart_items.each do |cart_item| %>
-      <li>
-        商品: <%= cart_item.item.name %> | 数量: <%= cart_item.amount %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>

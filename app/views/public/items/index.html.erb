@@ -13,8 +13,8 @@
 
   <%= item.name %><br>
 
-  <!-- 金額に税10%を足してカンマを付けるメソッド formatted_price-->
-  ¥<%= item.formatted_price %>
+  <!-- number_with_delimiter金額に税10%するメソッド floor小数点切り捨て %-->
+  ¥<%= number_with_delimiter(item.tax_included_price.floor) %>
 <% end %>
 
 <!-- ページネーション -->

@@ -3,37 +3,25 @@ class Public::CartItemsController < ApplicationController
   before_action :authenticate_customer!
 
   def index
-    # 現在の顧客に紐づく cart_items を取得（カートがなければ新しい CartItem を作成）
     @cart_items = current_customer.cart_items
-  
-    # カートが空の場合、新しい CartItem を作成
-    if @cart_items.empty?
-      # ここでは仮に最初のアイテムを追加しています。適切なアイテムを選んでください。
-      default_item = Item.first # 仮に最初の商品を選択
-      current_customer.cart_items.create(item: default_item, amount: 1)
-      @cart_items = current_customer.cart_items
-    end
   end
   
   def create
-    @cart = current_customer.cart || current_customer.create_cart
-    @item = Item.find(params[:item_id])
-    amount = params[:amount].to_i
+    # params[:item][:item_id] を使って、アイテムを検索
+    @item = Item.find(params[:item][:item_id])
+    amount = params[:item][:amount].to_i
 
-    # すでにカートにあるか確認
-    cart_item = @cart.cart_items.find_by(item_id: @item.id)
+    # カートアイテムがすでに存在する場合は数量を追加、存在しない場合は新しく作成
+    @cart_item = current_customer.cart_items.find_or_initialize_by(item_id: @item.id)
+    @cart_item.amount = (@cart_item.amount || 0) + amount
 
-    if cart_item
-      # 既にあるなら数量を追加
-      cart_item.update(amount: cart_item.amount + amount)
+    if @cart_item.save
+      redirect_to cart_items_path, notice: 'カートに商品を追加しました。'
     else
-      # なければ新規作成
-      @cart.cart_items.create(item: @item, amount: amount)
+      redirect_to @item, alert: 'カートに追加できませんでした。'
     end
-
-    redirect_to cart_items_path, notice: "カートに追加しました"
   end
-  
+
   def update
     @cart_item = CartItem.find(params[:id])
     if @cart_item.update(cart_item_params)
@@ -50,7 +38,7 @@ class Public::CartItemsController < ApplicationController
   end
 
 def destroy_all
-  current_customer.cart.cart_items.destroy_all
+  current_customer.cart_items.destroy_all
   redirect_to cart_items_path, notice: "カートを空にしました"
 end
 

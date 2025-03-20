@@ -4,12 +4,10 @@
 
 <%= @item.introduction %>
 
-<%= "￥#{@item.formatted_price}" %>
-<p>(税込み)</p>
+<p>￥ <%= number_with_delimiter(@item.price) %> 税込 </p>
 
 <!-- カートへ渡す数量選択 url指定カートへ -->
-<%= form_with(model: @item, url: cart_items_path, local: true) do |f| %>
-
+<%= form_with model: @item, url: cart_items_path(@item), method: :post, local: true do |f| %>
   <!-- @itemのitem_idをカートのamountへ渡す -->
   <%= f.hidden_field :item_id, value: @item.id %>
 
