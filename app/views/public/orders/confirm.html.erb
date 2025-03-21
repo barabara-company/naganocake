@@ -41,13 +41,17 @@
 <p><strong>支払方法</strong></p><%= t("activerecord.attributes.order.payment_method.#{@order.payment_method}") %>
 <p><strong>お届け先</strong></p><%= @order.postal_code || "データなし" %> <%=@order.address || "データなし"%><br><%=@order.name || "データなし"%>
 
- <%= form_with model: @order, url: orders_path, method: :post do |f| %>
-    <%= f.hidden_field :postal_code, value: @order.postal_code %>
-    <%= f.hidden_field :address, value: @order.address %>
-    <%= f.hidden_field :name, value: @order.name %>
-    <%= f.hidden_field :shipping_cost %>
-    <%= f.hidden_field :total_payment %>
-    <%= f.submit "注文を確定する",  class: "btn btn-sm btn-success" %>
-  <% end %>
+<%= form_with model: @order, url: orders_path, method: :post do |f| %>
+  <%= f.hidden_field :postal_code, value: @order.postal_code %>
+  <%= f.hidden_field :address, value: @order.address %>
+  <%= f.hidden_field :name, value: @order.name %>
+  <%= f.hidden_field :shipping_cost %>
 
-  <%= link_to "戻る", new_order_path %>
+  <%= f.hidden_field :payment_method, value: @order.payment_method %>
+
+  <%= f.hidden_field :total_payment %>
+  <%= f.submit "注文を確定する",  class: "btn btn-sm btn-success" %>
+<% end %>
+
+
+<%= link_to "戻る", new_order_path %>

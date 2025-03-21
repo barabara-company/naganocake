@@ -8,12 +8,12 @@ class Public::OrdersController < ApplicationController
  
   def confirm
     session[:order_params] = params[:order] if params[:order].present?
-  
+
     if session[:order_params].present?
       order_params = session[:order_params].permit!.to_h.symbolize_keys
       order_params[:payment_method] = order_params[:payment_method].to_i
-      @order = Order.new(order_params.except(:address_option, :address_id, :new_postal_code, :new_address, :new_name))
-  
+      @order = Order.new(order_params.except( :address_id, :new_postal_code, :new_address, :new_name))
+  # byebug
       case order_params[:address_option]
       when "registered"
         @order.postal_code = current_customer.postal_code
@@ -31,6 +31,11 @@ class Public::OrdersController < ApplicationController
         @order.address = order_params[:new_address]
         @order.name = order_params[:new_recipient_name]
       end
+
+      # address_optionをorderに設定
+      @order.address_option = order_params[:address_option]  # ここで設定
+
+
     else
       flash[:alert] = "注文情報が見つかりません"
       redirect_to new_order_path and return
@@ -41,6 +46,8 @@ class Public::OrdersController < ApplicationController
     @cart_total_price = @cart_items.sum { |cart_item| cart_item.item.price * cart_item.amount }
     @order.shipping_cost ||= 800 
     @order.total_payment = @cart_total_price + @order.shipping_cost
+# beybug
+
   end
   
   
@@ -53,7 +60,8 @@ class Public::OrdersController < ApplicationController
     @order.customer = current_customer
     @order.shipping_cost = 800
     @order.total_payment = 1000
-  
+#     Rails.logger.debug "=== PARAMS: #{params.inspect} ==="
+# byebug
     case params[:order][:address_option]
     when "registered"
       @order.postal_code = current_customer.postal_code
@@ -80,13 +88,17 @@ class Public::OrdersController < ApplicationController
       end
     else
       flash[:alert] = "住所の選択が必要です"
-      render :new and return
+      render :new and return   #どうしてもここを踏んでしまう!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     end
   
-    session[:order_params] = @order.attributes.symbolize_keys
-  
-    # 注文が作成された後に thanks ページにリダイレクト
-    redirect_to orders_thanks_path
+    # if @order.save
+    #   session[:order_params] = @order.attributes.symbolize_keys
+    #   redirect_to orders_thanks_path
+
+    # else
+    #   flash[:alert] = "注文の保存に失敗しました: #{@order.errors.full_messages.join(", ")}"
+    #   render :new
+    end
   end
   
   
@@ -108,9 +120,13 @@ class Public::OrdersController < ApplicationController
       :address,
       :name,
       :shipping_cost,
-      :total_payment
-      # 他に必要なパラメータを追加
-    )
+      :total_payment,
+      :address_option,
+      :new_postal_code,
+      :new_address,
+      :new_name,
+      :payment_method
+          )
   end
   
 end
