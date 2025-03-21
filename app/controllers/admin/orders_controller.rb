@@ -2,6 +2,7 @@ class Admin::OrdersController < ApplicationController
   before_action :set_order, only: [:show, :update]
 
   def show
+    @cust
   end
 
   def update
