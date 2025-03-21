@@ -15,9 +15,9 @@
       <% @cart_total_price += subtotal %> <%# 商品合計を加算 %>
       <tr>
         <td><%= cart_item.item.name %></td>
-        <td><%= number_to_currency(cart_item.item.price, unit: "¥") %></td>
+        <td><%= number_to_currency(cart_item.item.price, unit: "¥", precision: 0) %></td>
         <td><%= cart_item.amount %></td>
-        <td><%= number_to_currency(subtotal, unit: "¥") %></td>
+        <td><%= number_to_currency(subtotal, unit: "¥", precision: 0) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,19 +26,19 @@
 <table class='table table-hover table-inverse'>
   <tr>
     <th>送料</th>
-    <td><%= number_to_currency(@order.shipping_cost, unit: "¥") %></td>
+    <td><%= number_to_currency(@order.shipping_cost, unit: "¥", precision: 0) %></td>
   </tr>
   <tr>
     <th>商品合計</th>
-    <td><%= number_to_currency(@cart_total_price, unit: "¥") %></td>
+    <td><%= number_to_currency(@cart_total_price, unit: "¥", precision: 0) %></td>
   </tr>
   <tr>
     <th>請求金額</th>
-    <td><%= number_to_currency(@cart_total_price + @order.shipping_cost, unit: "¥") %></td>
+    <td><%= number_to_currency(@cart_total_price + @order.shipping_cost, unit: "¥", precision: 0) %></td>
   </tr>
 </table>
 
-<p><strong>支払方法</strong></p><%= t("enums.order.payment_method.#{@order.payment_method}") %>
+<p><strong>支払方法</strong></p><%= t("activerecord.attributes.order.payment_method.#{@order.payment_method}") %>
 <p><strong>お届け先</strong></p><%= @order.postal_code || "データなし" %> <%=@order.address || "データなし"%><br><%=@order.name || "データなし"%>
 
  <%= form_with model: @order, url: orders_path, method: :post do |f| %>

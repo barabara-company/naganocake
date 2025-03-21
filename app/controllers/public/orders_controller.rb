@@ -82,11 +82,13 @@ class Public::OrdersController < ApplicationController
       flash[:alert] = "住所の選択が必要です"
       render :new and return
     end
-
+  
     session[:order_params] = @order.attributes.symbolize_keys
   
-    redirect_to orders_confirm_path
+    # 注文が作成された後に thanks ページにリダイレクト
+    redirect_to orders_thanks_path
   end
+  
   
  
   def index
@@ -96,8 +98,19 @@ class Public::OrdersController < ApplicationController
   end
 
   private
+  # def order_params
+    # params.require(:order).permit(:payment_method, :address_option, :address_id, :new_postal_code, :new_address, :new_recipient_name)
+  # end
+
   def order_params
-    params.require(:order).permit(:payment_method, :address_option, :address_id, :new_postal_code, :new_address, :new_recipient_name)
+    params.require(:order).permit(
+      :postal_code,
+      :address,
+      :name,
+      :shipping_cost,
+      :total_payment
+      # 他に必要なパラメータを追加
+    )
   end
   
 end
