@@ -6,43 +6,45 @@
       <th>単価（税込）</th>
       <th>数量</th>
       <th>小計</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
   <tbody>
+    <% @cart_total_price = 0 %>  <%# 商品合計を計算する変数を初期化 %>
     <% @cart_items.each do |cart_item| %>
+      <% subtotal = cart_item.item.price * cart_item.amount %> <%# 小計計算 %>
+      <% @cart_total_price += subtotal %> <%# 商品合計を加算 %>
       <tr>
         <td><%= cart_item.item.name %></td>
-        <td><%= cart_item.item.price %></td>
-        <td><%= cart_item.item.price %></td>
+        <td><%= number_to_currency(cart_item.item.price, unit: "¥") %></td>
+        <td><%= cart_item.amount %></td>
+        <td><%= number_to_currency(subtotal, unit: "¥") %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <table class='table table-hover table-inverse'>
-    <tr>
-      <th>送料</th>
-      <th><td><%= @order.shipping_cost %></td></th>
-    </tr>
-    <tr>
-      <th>商品合計</th>
-      <th></th>
-    </tr>
-    <tr>
-      <th>請求金額</th>
-      <th><%= @order.total_payment %></th>
-    </tr>
-
-  </tbody>
+  <tr>
+    <th>送料</th>
+    <td><%= number_to_currency(@order.shipping_cost, unit: "¥") %></td>
+  </tr>
+  <tr>
+    <th>商品合計</th>
+    <td><%= number_to_currency(@cart_total_price, unit: "¥") %></td>
+  </tr>
+  <tr>
+    <th>請求金額</th>
+    <td><%= number_to_currency(@cart_total_price + @order.shipping_cost, unit: "¥") %></td>
+  </tr>
 </table>
-<p><strong>支払方法</strong></p><%=@order.payment_method%>
+
+<p><strong>支払方法</strong></p><%= t("enums.order.payment_method.#{@order.payment_method}") %>
 <p><strong>お届け先</strong></p><%= @order.postal_code || "データなし" %> <%=@order.address || "データなし"%><br><%=@order.name || "データなし"%>
 
  <%= form_with model: @order, url: orders_path, method: :post do |f| %>
-    <%= f.hidden_field :postal_code %>
-    <%= f.hidden_field :address %>
-    <%= f.hidden_field :name %>
+    <%= f.hidden_field :postal_code, value: @order.postal_code %>
+    <%= f.hidden_field :address, value: @order.address %>
+    <%= f.hidden_field :name, value: @order.name %>
     <%= f.hidden_field :shipping_cost %>
     <%= f.hidden_field :total_payment %>
     <%= f.submit "注文を確定する",  class: "btn btn-sm btn-success" %>
