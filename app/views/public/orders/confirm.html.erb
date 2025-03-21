@@ -1,53 +1,59 @@
-<h1>注文情報確認</h1>
-<table class='table table-hover table-inverse'>
-  <thead>
+<h3>注文情報確認</h3>
+
+<table class="table">
+  <tr>
+    <td>商品名</td>
+    <td>単価(税込)</td>
+    <td>数量</td>
+    <td>小計</td>
+  </tr>
+  <% @cart_items.each do |cart_item| %>
     <tr>
-      <th>商品名</th>
-      <th>単価（税込）</th>
-      <th>数量</th>
-      <th>小計</th>
+      <td>
+        <%= image_tag cart_item.item.image, size: "100x80" %>
+        <strong><%= cart_item.item.name %></strong>
+      </td>
+      <td><%= cart_item.item.price %></td>
+      <td><%= cart_item.amount %></td>  <!-- 修正：quantity ではなく、amountを表示 -->
+      <td><%= cart_item.item.price * cart_item.amount %></td>  <!-- 修正：quantity を amount に変更 -->
     </tr>
-  </thead>
-  <tbody>
-    <% @cart_total_price = 0 %>  <%# 商品合計を計算する変数を初期化 %>
-    <% @cart_items.each do |cart_item| %>
-      <% subtotal = cart_item.item.price * cart_item.amount %> <%# 小計計算 %>
-      <% @cart_total_price += subtotal %> <%# 商品合計を加算 %>
-      <tr>
-        <td><%= cart_item.item.name %></td>
-        <td><%= number_to_currency(cart_item.item.price, unit: "¥", precision: 0) %></td>
-        <td><%= cart_item.amount %></td>
-        <td><%= number_to_currency(subtotal, unit: "¥", precision: 0) %></td>
-      </tr>
-    <% end %>
-  </tbody>
+  <% end %>
 </table>
 
-<table class='table table-hover table-inverse'>
+<table class="table">
   <tr>
-    <th>送料</th>
-    <td><%= number_to_currency(@order.shipping_cost, unit: "¥", precision: 0) %></td>
+    <td>送料</td>
+    <td><%= @shipping_fee %></td>
   </tr>
   <tr>
-    <th>商品合計</th>
-    <td><%= number_to_currency(@cart_total_price, unit: "¥", precision: 0) %></td>
+    <td>商品合計</td>
+    <td><%= @cart_items_price %></td>
   </tr>
   <tr>
-    <th>請求金額</th>
-    <td><%= number_to_currency(@cart_total_price + @order.shipping_cost, unit: "¥", precision: 0) %></td>
+    <td>請求額</td>
+    <td><%= @total_price %></td>
   </tr>
 </table>
 
-<p><strong>支払方法</strong></p><%= t("activerecord.attributes.order.payment_method.#{@order.payment_method}") %>
-<p><strong>お届け先</strong></p><%= @order.postal_code || "データなし" %> <%=@order.address || "データなし"%><br><%=@order.name || "データなし"%>
+<h4>支払い方法</h4>
+<% if @selected_pay_method == "credit_card" %>
+  クレジットカード
+<% else %>
+  銀行振込
+<% end %>
 
- <%= form_with model: @order, url: orders_path, method: :post do |f| %>
-    <%= f.hidden_field :postal_code, value: @order.postal_code %>
-    <%= f.hidden_field :address, value: @order.address %>
-    <%= f.hidden_field :name, value: @order.name %>
-    <%= f.hidden_field :shipping_cost %>
-    <%= f.hidden_field :total_payment %>
-    <%= f.submit "注文を確定する",  class: "btn btn-sm btn-success" %>
+<h4>お届け先</h4>
+<%= @selected_address %>
+
+<%= form_with url: orders_path, method: :post do %>
+  <%= hidden_field_tag 'order[pay_method]', @selected_pay_method %>
+  <%= hidden_field_tag 'order[address_type]', @address_type %>
+
+  <% if @address_type == "new_address" %>
+    <%= hidden_field_tag 'order[new_post_code]', params[:order][:new_post_code] %>
+    <%= hidden_field_tag 'order[new_address]', params[:order][:new_address] %>
+    <%= hidden_field_tag 'order[new_name]', params[:order][:new_name] %>
   <% end %>
 
-  <%= link_to "戻る", new_order_path %>
+  <%= submit_tag "注文を確定する", class: "btn btn-success" %>
+<% end %>

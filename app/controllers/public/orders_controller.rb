@@ -1,116 +1,113 @@
-class Public::OrdersController < ApplicationController
-  before_action :authenticate_customer!
-  def new
-    @order = Order.new
-    @addresses = current_customer&.addresses
-    @customer = current_customer
-  end
- 
-  def confirm
-    session[:order_params] = params[:order] if params[:order].present?
-  
-    if session[:order_params].present?
-      order_params = session[:order_params].permit!.to_h.symbolize_keys
-      order_params[:payment_method] = order_params[:payment_method].to_i
-      @order = Order.new(order_params.except(:address_option, :address_id, :new_postal_code, :new_address, :new_name))
-  
-      case order_params[:address_option]
-      when "registered"
+module Public
+  class OrdersController < ApplicationController
+    before_action :authenticate_customer!, only: [:new, :confirm, :create, :index, :show, :thanks]
+
+    def new
+      @order = Order.new  # ここで @order を初期化
+    end
+
+
+    def confirm
+      # customer_idを使ってカートアイテムを取得
+      @cart_items = CartItem.where(customer_id: current_customer.id)
+      @shipping_fee = 800 # 送料は800円で固定
+      @selected_pay_method = params[:order][:pay_method]
+    
+      # 商品合計額の計算
+      ary = []
+      @cart_items.each do |cart_item|
+        ary << cart_item.item.price * cart_item.amount  # 修正：quantity ではなく、amount を使用
+      end
+      @cart_items_price = ary.sum
+    
+      @total_price = @shipping_fee + @cart_items_price
+      @address_type = params[:order][:address_type]
+      case @address_type
+      when "member_address"
+        @selected_address = current_customer.postal_code + " " + current_customer.address + " " + current_customer.last_name + current_customer.first_name
+      when "registered_address"
+        unless params[:order][:registered_address_id].blank?
+          selected = Address.find(params[:order][:registered_address_id])
+          @selected_address = selected.postal_code + " " + selected.address + " " + selected.name
+        else
+          render :new
+        end
+      when "new_address"
+        unless params[:order][:new_post_code].blank? && params[:order][:new_address].blank? && params[:order][:new_name].blank?
+          @selected_address = params[:order][:new_post_code] + " " + params[:order][:new_address] + " " + params[:order][:new_name]
+        else
+          render :new
+        end
+      end
+    end
+    
+    def create
+      @order = Order.new
+      @order.customer_id = current_customer.id
+      @order.shipping_cost = 800
+      @cart_items = CartItem.where(customer_id: current_customer.id)
+      ary = []
+      
+      @cart_items.each do |cart_item|
+        ary << cart_item.item.price * cart_item.amount  # 修正：amount を使用
+      end
+      
+      @cart_items_price = ary.sum
+      @order.total_payment = @order.shipping_cost + @cart_items_price
+      @order.payment_method = params[:order][:pay_method]
+      if @order.payment_method == "credit_card"
+        @order.status = 1
+      else
+        @order.status = 0
+      end
+    
+      address_type = params[:order][:address_type]
+      case address_type
+      when "member_address"
         @order.postal_code = current_customer.postal_code
         @order.address = current_customer.address
-        @order.name = "#{current_customer.last_name} #{current_customer.first_name}"
-      when "saved"
-        address = current_customer.addresses.find_by(id: order_params[:address_id])
-        if address
-          @order.postal_code = address.postal_code
-          @order.address = address.address
-          @order.name = address.name
-        end
-      when "new"
-        @order.postal_code = order_params[:new_postal_code]
-        @order.address = order_params[:new_address]
-        @order.name = order_params[:new_recipient_name]
-      end
-    else
-      flash[:alert] = "注文情報が見つかりません"
-      redirect_to new_order_path and return
-    end
-  
-    @cart_items = current_customer.cart_items
-  
-    @cart_total_price = @cart_items.sum { |cart_item| cart_item.item.price * cart_item.amount }
-    @order.shipping_cost ||= 800 
-    @order.total_payment = @cart_total_price + @order.shipping_cost
-  end
-  
-  
-
-  def thanks
-  end
- 
-  def create
-    @order = Order.new(order_params)
-    @order.customer = current_customer
-    @order.shipping_cost = 800
-    @order.total_payment = 1000
-  
-    case params[:order][:address_option]
-    when "registered"
-      @order.postal_code = current_customer.postal_code
-      @order.address = current_customer.address
-      @order.name = "#{current_customer.last_name} #{current_customer.first_name}"
-    when "saved"
-      address = current_customer.addresses.find_by(id: params[:order][:address_id])
-      if address
-        @order.postal_code = address.postal_code
-        @order.address = address.address
-        @order.name = address.name
-      else
-        flash[:alert] = "住所を選択してください"
-        render :new and return
-      end
-    when "new"
-      if params[:order][:new_postal_code].present? && params[:order][:new_address].present? && params[:order][:new_recipient_name].present?
-        @order.postal_code = params[:order][:new_postal_code]
+        @order.name = current_customer.last_name + current_customer.first_name
+      when "registered_address"
+        selected = Address.find(params[:order][:registered_address_id])
+        @order.postal_code = selected.postal_code
+        @order.address = selected.address
+        @order.name = selected.name
+      when "new_address"
+        @order.postal_code = params[:order][:new_post_code]
         @order.address = params[:order][:new_address]
-        @order.name = params[:order][:new_recipient_name]
-      else
-        flash[:alert] = "新しい住所を入力してください"
-        render :new and return
+        @order.name = params[:order][:new_name]
       end
-    else
-      flash[:alert] = "住所の選択が必要です"
-      render :new and return
+    
+      if @order.save
+        if @order.status == 0
+          @cart_items.each do |cart_item|
+            OrderDetail.create!(orders_id: @order.id, item_id: cart_item.item.id, price: cart_item.item.price, amount: cart_item.amount, making_status: 0) # 修正：quantity -> amount
+          end
+        else
+          @cart_items.each do |cart_item|
+            OrderDetail.create!(orders_id: @order.id, item_id: cart_item.item.id, price: cart_item.item.price, amount: cart_item.amount, making_status: 1) # 修正：quantity -> amount
+          end
+        end
+        @cart_items.destroy_all
+        redirect_to orders_thanks_path
+      else
+        render :new
+      end
     end
-  
-    session[:order_params] = @order.attributes.symbolize_keys
-  
-    # 注文が作成された後に thanks ページにリダイレクト
-    redirect_to orders_thanks_path
-  end
-  
-  
- 
-  def index
-  end
- 
-  def show
-  end
+    
+    
 
-  private
-  # def order_params
-    # params.require(:order).permit(:payment_method, :address_option, :address_id, :new_postal_code, :new_address, :new_recipient_name)
-  # end
+    def index
+    end
 
-  def order_params
-    params.require(:order).permit(
-      :postal_code,
-      :address,
-      :name,
-      :shipping_cost,
-      :total_payment
-      # 他に必要なパラメータを追加
-    )
+    def show
+    end
+
+    def thanks
+      # ありがとうページに表示する内容があればここに書く
+    end
   end
-  
 end
+
+
+
