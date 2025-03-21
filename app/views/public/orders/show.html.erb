@@ -58,19 +58,20 @@
     <th>小計</th>
   </thead>
   <tbody>
-    <% @order.each do |order| %>
-    <tr>
-      <!-- 商品 -->
-      <td><%= order.order_detail.item.name %></td>
+    <% @order_details.each do |order_detail| %>
+      <tr>
+        <!-- 商品 -->
+        <td><%= order_detail.item.name %></td>
 
-      <!-- 単価税込 -->
-      <td><%= order.order_detail.item.tax_included_price.floor %></td>
+        <!-- 単価税込 -->
+        <td><%= order_detail.item.tax_included_price.floor %></td>
 
-      <!-- 個数 -->
-      <td><%= order.order_detail.amount %></td>
+        <!-- 個数 -->
+        <td><%= order_detail.amount %></td>
 
-      <!-- 小計 -->
-      <td><%= order.total_payment.floor %></td>
-    </tr>
+        <!-- 小計 -->
+        <td><%= order_detail.item.tax_included_price * order_detail.amount %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
