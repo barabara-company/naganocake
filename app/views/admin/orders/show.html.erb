@@ -3,7 +3,7 @@
 <table>
   <tr>
     <th>購入者</th>
-    <td><%= @order.customer.name %></td>
+    <td><%= @order.customer.first_name %> <%= @order.customer.last_name %></td>
   </tr>
   <tr>
     <th>注文日</th>
@@ -40,9 +40,9 @@
   <% @order.order_details.each do |detail| %>
     <tr>
       <td><%= detail.item.name %></td>
-      <td><%= number_to_currency(detail.unit_price, unit: "¥") %></td>
-      <td><%= detail.quantity %></td>
-      <td><%= number_to_currency(detail.subtotal, unit: "¥") %></td>
+      <td><%= number_to_currency(detail.price, unit: "¥") %></td>
+      <td><%= detail.amount %></td>
+      <td><%= number_to_currency(detail.price * detail.amount, unit: "¥") %></td>
       <td>
         <%= form_with model: detail, url: admin_order_detail_path(detail), method: :patch do |f| %>
           <%= f.select :production_status, OrderDetail.production_statuses.keys.map { |key| [OrderDetail.production_statuses[key], key] }, {}, class: "form-control" %>
