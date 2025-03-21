@@ -70,7 +70,7 @@
         <td><%= order_detail.amount %></td>
 
         <!-- 小計 -->
-        <td><%= order_detail.item.tax_included_price * order_detail.amount %></td>
+        <td><%= order_detail.item.tax_included_price.floor * order_detail.amount.floor %></td>
       </tr>
     <% end %>
   </tbody>
