@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   belongs_to :customer
   has_many :order_details, foreign_key: "orders_id", dependent: :destroy
-
+  attr_accessor :address_option
   enum status: { 
     waiting_for_payment: 0, 
     payment_confirmed: 1, 
@@ -9,5 +9,9 @@ class Order < ApplicationRecord
     preparing_for_shipment: 3, 
     shipped: 4 
   }
-
+  enum payment_method: {
+    credit_card: 0,
+    bank_transfer: 1
+  }
+  belongs_to :customer 
 end
