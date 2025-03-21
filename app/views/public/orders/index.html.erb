@@ -11,21 +11,24 @@
   </thead>
   <tbody>
     <% @orders.each do |order| %>
-      <!-- 注文日 -->
-      <td><%= order.create_at %></td>
+      <!-- 注文日 strftime("%Y/%m/%d") で yyyy/mm/dd表記に変更 -->
+      <td><%= order.created_at.strftime("%Y/%m/%d") %></td>
 
       <!-- 配送先 -->
       <td>
-      <%= order.postal_code %><br>
+      〒<%= order.postal_code %><br>
       <%= order.address %><br>
       <%= order.name %>
       </td>
 
       <!-- 注文商品 -->
-      <td><%= order.order_details.item_id.name %></td>
-
+      <td>
+        <% order.order_details.each do |order_detail| %>
+          <%= order_detail.item.name %><br>
+        <% end %>
+      </td>
       <!-- 支払金額 -->
-      <td><%= order.order_details.price %></td>
+      <td><%= order.order_detail.price %>円</td>
 
       <!-- ステータス 英文のままで良かったらorder.statusだけでいい -->
       <td><%= t("enums.order.status.#{order.status}") %></td>
