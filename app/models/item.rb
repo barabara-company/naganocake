@@ -7,6 +7,9 @@ class Item < ApplicationRecord
   
   belongs_to :genre
 
+  has_many :order_details
+
+
   # 税込金額用メソッド 消費税10%計算
   def tax_included_price
     (price * 1.1)
