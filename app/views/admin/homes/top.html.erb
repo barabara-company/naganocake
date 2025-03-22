@@ -1,5 +1,5 @@
 <h5>注文履歴一覧</h5>
-<table>
+<table class='table table-hover table-inverse'>
   <thead>
     <tr>
       <th>購入日時</th>
@@ -12,11 +12,11 @@
     <% @orders.each do |order| %>
       <tr>
         <td>
-          <%= link_to order.created_at.strftime("%Y-%m-%d %H:%M"), admin_order_path(order) %>
+          <%= link_to order.created_at.strftime("%Y/%m/%d %H:%M"), admin_order_path(order) %>
         </td>
         <td><%= order.name %></td>
         <td><%= order.order_details.sum(:amount) %></td>
-        <td><%= Order.statuses.key(order.status) %></td>
+        <td><%= t("activerecord.attributes.order.status.#{order.status}") %></td>
       </tr>
     <% end %>
   </tbody>
