@@ -7,17 +7,28 @@ class Public::OrdersController < ApplicationController
   end
  
   def confirm
-    session[:order_params] = params[:order] if params[:order].present?
-
-    if session[:order_params].present?
-      order_params = session[:order_params].permit!.to_h.symbolize_keys
-      order_params[:payment_method] = order_params[:payment_method].to_i
-      @order = Order.new(order_params.except(:address_option, :address_id, :new_postal_code, :new_address, :new_name))
-    else
+    Rails.logger.debug "confirm action - session[:order_params]: #{session[:order_params].inspect}"
+  
+    unless session[:order_params].present?
       flash[:alert] = "注文情報が見つかりません"
-      redirect_to new_order_path
+      redirect_to new_order_path and return
     end
-    @cart_items = current_customer.cart_items()
+  
+    # セッションデータから Order を作成（不要なデータを除外）
+    order_params = session[:order_params].slice("payment_method", "postal_code", "address", "name", "shipping_cost", "total_payment")
+    @order = Order.new(order_params)
+    order_params = session[:order_params]
+    @order = Order.new(
+      payment_method: order_params["payment_method"],
+      postal_code: order_params["new_postal_code"],
+      address: order_params["new_address"],
+      name: order_params["new_name"],
+      shipping_cost: 800,  # 送料を設定
+      total_payment: 1000  # 仮の合計金額（あとで修正）
+    )
+    Rails.logger.debug "@order attributes: #{@order.attributes.inspect}"
+  
+    @cart_items = current_customer.cart_items
   end
 
   def thanks

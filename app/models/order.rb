@@ -13,5 +13,9 @@ class Order < ApplicationRecord
     credit_card: 0,
     bank_transfer: 1
   }
-  belongs_to :customer 
+
+  def item_total_price
+    order_items.sum(&:subtotal)
+  end
+
 end

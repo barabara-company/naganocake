@@ -14,7 +14,8 @@
       <tr>
         <td><%= cart_item.name %></td>
         <td><%= cart_item.item.price %></td>
-        <td><%= cart_item.item.price %></td>
+        <td><%= cart_item.item.amount %></td>
+        <td><%= cart_item.item.subtotal %></td>
       </tr>
     <% end %>
   </tbody>
@@ -31,7 +32,7 @@
     </tr>
     <tr>
       <th>請求金額</th>
-      <th><%= @order.total_payment %></th>
+
     </tr>
 
   </tbody>
