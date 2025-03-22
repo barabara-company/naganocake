@@ -2,8 +2,10 @@ class Admin::OrdersController < ApplicationController
   before_action :set_order, only: [:show, :update]
 
   def show
-    @cust
+    @order = Order.find(params[:id])  # 注文情報を取得
+    @cust = @order.customer  # 顧客情報を取得
   end
+  
 
   def update
     if @order.update(order_params)
