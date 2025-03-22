@@ -14,8 +14,8 @@
 # find_or_create_by ですでに同じメールアドレスの存在を確認 存在すれば作らない。
 # do |admin| で存在しなければ他の属性も追加で新規作成する
 
-admin = Admin.find_or_create_by(email: "admin@example.com") do |admin|
+admin = Admin.find_or_create_by(email: "a@a") do |admin|
   admin.password = "123456"
-  puts "email = admin@example.com"
+  puts "email = a@a"
   puts "password = 123456"
 end
