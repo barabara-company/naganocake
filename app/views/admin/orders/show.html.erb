@@ -37,21 +37,22 @@
     <th>小計</th>
     <th>制作ステータス</th>
   </tr>
-  <% @order.order_details.each do |detail| %>
+  <% @order.order_details.each do |detail| %> <!-- detailをeachで渡す -->
     <tr>
       <td><%= detail.item.name %></td>
       <td><%= number_to_currency(detail.price, precision: 0, format: "%n") %></td>
       <td><%= detail.amount %></td>
       <td><%= number_to_currency(detail.price * detail.amount, precision: 0, format: "%n") %></td>
       <td>
-        <%= form_with model: detail, url: admin_order_detail_path(detail), method: :patch do |f| %>
+        <%= form_with model: detail, url: admin_order_detail_path(detail), method: :patch, remote: false do |f| %>
           <%= f.select :production_status, OrderDetail.production_statuses.keys.map { |key| [I18n.t("activerecord.attributes.order_detail.production_status.#{key}"), key] }, {}, class: "form-control" %>
           <%= f.submit "更新", class: "btn btn-success" %>
         <% end %>
       </td>
     </tr>
-  <% end %>  
+  <% end %>
 </table>
+
 
 <table>
   <tr>
