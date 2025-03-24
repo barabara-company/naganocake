@@ -13,9 +13,9 @@
         <%= image_tag cart_item.item.image, size: "100x80" %>
         <strong><%= cart_item.item.name %></strong>
       </td>
-      <td><%= cart_item.item.price %></td>
+      <td><%= cart_item.item.tax_included_price.floor %></td>
       <td><%= cart_item.amount %></td>  <!-- 修正：quantity ではなく、amountを表示 -->
-      <td><%= cart_item.item.price * cart_item.amount %></td>  <!-- 修正：quantity を amount に変更 -->
+      <td><%= cart_item.item.tax_included_price.floor * cart_item.amount %></td>  <!-- 修正：quantity を amount に変更 -->
     </tr>
   <% end %>
 </table>

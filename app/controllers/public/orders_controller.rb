@@ -16,7 +16,7 @@ module Public
       # 商品合計額の計算
       ary = []
       @cart_items.each do |cart_item|
-        ary << cart_item.item.price * cart_item.amount  # 修正：quantity ではなく、amount を使用
+        ary << cart_item.item.tax_included_price.floor * cart_item.amount  # 修正：quantity ではなく、amount を使用
       end
       @cart_items_price = ary.sum
     
@@ -112,6 +112,7 @@ module Public
   end
  
  
+  
 end
 
 
