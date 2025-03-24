@@ -10,6 +10,8 @@ class Admin::GenresController < ApplicationController
       redirect_to admin_genres_path
     else
       # ジャンルのindexへ
+      @genres = Genre.all
+      @genre = Genre.new(genre_params)
       flash.now[:alert] = "登録に失敗しました" 
       render :index
     end
