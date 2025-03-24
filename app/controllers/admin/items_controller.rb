@@ -1,4 +1,6 @@
 class Admin::ItemsController < ApplicationController
+  before_action :is_matching_login_admin
+
   def index
     @items = Item.page(params[:page]).per(10)
     
@@ -47,5 +49,12 @@ class Admin::ItemsController < ApplicationController
     :price,
     :is_active)
   end
+
+  def is_matching_login_admin
+    unless current_admin
+      redirect_to new_admin_session_path, alert: "管理者としてログインしてください"
+    end
+  end
+
 
 end

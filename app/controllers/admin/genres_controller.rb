@@ -1,4 +1,6 @@
 class Admin::GenresController < ApplicationController
+  before_action :is_matching_login_admin
+
   def index
     @genres = Genre.all
     @genre = Genre.new
@@ -36,4 +38,11 @@ class Admin::GenresController < ApplicationController
   def genre_params
     params.require(:genre).permit(:name)
   end
+
+  def is_matching_login_admin
+    unless current_admin
+      redirect_to new_admin_session_path, alert: "管理者としてログインしてください"
+    end
+  end
+
 end
