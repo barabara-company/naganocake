@@ -48,12 +48,12 @@
 <%= form_with url: orders_path, method: :post do %>
   <%= hidden_field_tag 'order[pay_method]', @selected_pay_method %>
   <%= hidden_field_tag 'order[address_type]', @address_type %>
-
   <% if @address_type == "new_address" %>
     <%= hidden_field_tag 'order[new_post_code]', params[:order][:new_post_code] %>
     <%= hidden_field_tag 'order[new_address]', params[:order][:new_address] %>
     <%= hidden_field_tag 'order[new_name]', params[:order][:new_name] %>
+  <% elsif @address_type == "registered_address"%>
+    <%= hidden_field_tag 'order[registered_address_id]', params[:order][:registered_address_id] %>
   <% end %>
-
   <%= submit_tag "注文を確定する", class: "btn btn-success" %>
 <% end %>

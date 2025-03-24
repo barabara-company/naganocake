@@ -6,7 +6,7 @@
   <%= f.label :pay_method, I18n.t('activerecord.attributes.order.payment_method.credit_card'), value: "credit_card" %>
 
   <br>
-  <%= f.radio_button :pay_method, "transfer" %>
+  <%= f.radio_button :pay_method, "bank_transfer" %>
   <%= f.label :pay_method, I18n.t('activerecord.attributes.order.payment_method.bank_transfer'), value: "bank_transfer" %>
 
   <div>
