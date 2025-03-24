@@ -4,7 +4,7 @@
 
 <%= @item.introduction %>
 
-<p>￥ <%= number_with_delimiter(@item.price) %> (税込) </p>
+<p>￥ <%= number_with_delimiter(@item.tax_included_price.floor) %> (税込) </p>
 
 <!-- カートへ渡す数量選択 url指定カートへ -->
 <%= form_with model: @item, url: cart_items_path(@item), method: :post, local: true do |f| %>

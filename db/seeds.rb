@@ -16,6 +16,7 @@
 
 admin = Admin.find_or_create_by(email: "a@a") do |admin|
   admin.password = "123456"
+  puts "adminアカウント"
   puts "email = a@a"
   puts "password = 123456"
 end

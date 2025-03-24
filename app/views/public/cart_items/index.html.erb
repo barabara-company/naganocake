@@ -27,7 +27,7 @@
             <%= cart_item.item.name %>
           </td>
           <!-- 単価税込 -->
-          <td><%= number_with_delimiter(cart_item.item.price) %></td>
+          <td><%= number_with_delimiter(cart_item.item.tax_included_price.floor) %></td>
           <!-- 数量選択 -->
           <td>
             <%= form_with model: cart_item, method: :patch, local: true do |f| %>
