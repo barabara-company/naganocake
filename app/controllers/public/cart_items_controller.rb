@@ -1,7 +1,7 @@
 class Public::CartItemsController < ApplicationController
-
+  before_action :is_matching_login_customer
   before_action :authenticate_customer!
-
+  
   def index
     @cart_items = current_customer.cart_items
   end
@@ -43,6 +43,15 @@ def destroy_all
 end
 
   private
+
+  def is_matching_login_customer
+    # ログイン中のカスタマーと編集対象のカスタマーが一致するかチェック
+    if current_customer != @customer
+      flash[:alert] = "不正なアクセスです。"
+      redirect_to root_path
+    end
+  end
+
 
   def cart_item_params
     params.require(:cart_item).permit(:amount)

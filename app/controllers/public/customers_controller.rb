@@ -1,6 +1,7 @@
 class Public::CustomersController < ApplicationController
 
-  before_action :authenticate_customer!  #ログインしてなかったらログイン画面へ移行
+  before_action :is_matching_login_customer
+  before_action :authenticate_customer!
 
   def show
     @customer = current_customer
@@ -41,4 +42,13 @@ class Public::CustomersController < ApplicationController
     :telephone_number,
     :email)
   end
+
+  def is_matching_login_customer
+    # ログイン中のカスタマーと編集対象のカスタマーが一致するかチェック
+    if current_customer != @customer
+      flash[:alert] = "不正なアクセスです。"
+      redirect_to root_path
+    end
+  end
+
 end

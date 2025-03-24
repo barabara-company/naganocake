@@ -1,8 +1,10 @@
 module Public
   class AddressesController < ApplicationController
     before_action :set_address, only: [:edit, :update, :destroy]
-
-    def index
+    before_action :is_matching_login_customer
+    before_action :authenticate_customer!
+    
+      def index
       @addresses = Address.all
       @new_address = Address.new
     end
@@ -40,6 +42,14 @@ module Public
 
     def set_address
       @address = Address.find(params[:id])
+    end
+
+    def is_matching_login_customer
+      # ログイン中のカスタマーと編集対象のカスタマーが一致するかチェック
+      if current_customer != @customer
+        flash[:alert] = "不正なアクセスです。"
+        redirect_to root_path
+      end
     end
 
     def address_params
