@@ -17,7 +17,7 @@ class Admin::CustomersController < ApplicationController
     if @customer.update(customer_params)
       redirect_to admin_customer_path(@customer), notice: "更新に成功しました"
     else
-      flash.now[:alert] = "注文に失敗しました" 
+      flash.now[:alert] = "更新に失敗しました" 
       render "edit"
     end
   end
