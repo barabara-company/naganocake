@@ -14,6 +14,7 @@ class Public::CustomersController < ApplicationController
     if current_customer.update(customer_params)
       redirect_to customer_path(current_customer)
     else
+      flash.now[:alert] = "更新に失敗しました"
       render :edit
     end
   end  
@@ -24,6 +25,7 @@ class Public::CustomersController < ApplicationController
   def withdraw
     current_customer.update(is_active: false) #会員ステータスをfalseに変更
     reset_session #ログアウト処理
+    flash[:notice] = "退会しました"
     redirect_to root_path
   end
 

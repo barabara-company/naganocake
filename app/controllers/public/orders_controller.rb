@@ -30,12 +30,14 @@ module Public
           selected = Address.find(params[:order][:registered_address_id])
           @selected_address = selected.postal_code + " " + selected.address + " " + selected.name
         else
+          flash.now[:alert] = "配送先住所を選択してください"
           render :new
         end
       when "new_address"
         unless params[:order][:new_post_code].blank? && params[:order][:new_address].blank? && params[:order][:new_name].blank?
           @selected_address = params[:order][:new_post_code] + " " + params[:order][:new_address] + " " + params[:order][:new_name]
         else
+          flash.now[:alert] = "配送先住所の作成に失敗しました"
           render :new
         end
       end
@@ -91,12 +93,11 @@ module Public
         @cart_items.destroy_all
         redirect_to orders_thanks_path
       else
+        flash.now[:alert] = "登録に失敗しました"
         render :new
       end
     end
     
-    
-
     def index
       @orders = Order.all
     end
@@ -110,9 +111,6 @@ module Public
       # ありがとうページに表示する内容があればここに書く
     end
   end
- 
- 
-  
 end
 
 
