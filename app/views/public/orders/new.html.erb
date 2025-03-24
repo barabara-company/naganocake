@@ -27,15 +27,15 @@
   <table>
     <tr>
       <td>郵便番号(ハイフンなし)</td>
-      <td><%= f.text_field :new_post_code %></td>
+      <td><%= f.text_field :new_post_code, required: true %></td>
     </tr>
     <tr>
       <td>住所</td>
-      <td><%= f.text_field :new_address %></td>
+      <td><%= f.text_field :new_address, required: true %></td>
     </tr>
     <tr>
       <td>宛名</td>
-      <td><%= f.text_field :new_name %></td>
+      <td><%= f.text_field :new_name, required: true %></td>
     </tr>
   </table>
 
