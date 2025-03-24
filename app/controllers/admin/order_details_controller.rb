@@ -5,7 +5,7 @@ class Admin::OrderDetailsController < ApplicationController
     if @order_detail.update(order_detail_params)
       redirect_to admin_order_path(@order_detail.order), notice: "製作ステータスを更新しました"
     else
-      flash[:alert] = "更新に失敗しました"
+      flash.now[:alert] = "更新に失敗しました"
       render :show
     end
   end
