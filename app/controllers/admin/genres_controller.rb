@@ -10,6 +10,7 @@ class Admin::GenresController < ApplicationController
       redirect_to admin_genres_path
     else
       # ジャンルのindexへ
+      flash.now[:alert] = "登録に失敗しました" 
       render :index
     end
   end
@@ -23,6 +24,7 @@ class Admin::GenresController < ApplicationController
     if @genre.update(genre_params)
       redirect_to admin_genres_path  # ジャンル一覧へリダイレクト
     else
+      flash.now[:alert] = "更新に失敗しました" 
       render :edit  # 更新に失敗した場合は再度編集フォームを表示
     end
   end

@@ -13,6 +13,7 @@ class Admin::ItemsController < ApplicationController
     if @item.save
       redirect_to admin_item_path(@item)
     else
+      flash.now[:alert] = "登録に失敗しました" 
       render :new
     end
   end
@@ -30,6 +31,7 @@ class Admin::ItemsController < ApplicationController
     if @item.update(item_params)
       redirect_to admin_item_path(@item)
     else
+      flash.now[:alert] = "更新に失敗しました" 
       render :edit
     end
   end

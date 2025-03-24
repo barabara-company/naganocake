@@ -15,8 +15,9 @@ class Admin::CustomersController < ApplicationController
     @customer = Customer.find(params[:id])
     params[:customer][:is_active] = params[:customer][:is_active] == "true"
     if @customer.update(customer_params)
-      redirect_to admin_customer_path(@customer), notice: "You have updated book successfully."
+      redirect_to admin_customer_path(@customer), notice: "更新に成功しました"
     else
+      flash.now[:alert] = "注文に失敗しました" 
       render "edit"
     end
   end
