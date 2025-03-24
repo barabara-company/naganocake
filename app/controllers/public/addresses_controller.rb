@@ -14,6 +14,7 @@ module Public
         redirect_to addresses_path
       else
         @addresses = Address.all
+        flash.now[:alert] = "登録に失敗しました"
         render :index, status: :unprocessable_entity
       end
     end
@@ -25,6 +26,7 @@ module Public
       if @address.update(address_params)
         redirect_to addresses_path
       else
+        flash.now[:alert] = "更新に失敗しました"
         render :edit, status: :unprocessable_entity
       end
     end
