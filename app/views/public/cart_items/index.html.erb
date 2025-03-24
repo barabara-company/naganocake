@@ -28,7 +28,7 @@
           <!-- 数量選択 -->
           <td>
             <%= form_with model: cart_item, method: :patch, local: true do |f| %>
-              <%= f.select :amount, *[1..10], selected: cart_item.amount %>
+              <%= f.select :amount, *[1..100], selected: cart_item.amount %>
               <%= f.submit "変更" %>
             <% end %>
           </td>

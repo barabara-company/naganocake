@@ -14,7 +14,7 @@
     <%= f.hidden_field :item_id, value: @item.id %>
 
     <!-- セレクトボックスで1~10個を選択 カートのamountへ渡す -->
-    <%= f.select :amount, *[1..10] %>
+    <%= f.select :amount, *[1..100] %>
     
     <%= f.submit "カートに入れる" %>
   <% end %>
