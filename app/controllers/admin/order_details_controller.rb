@@ -1,5 +1,6 @@
 class Admin::OrderDetailsController < ApplicationController
   before_action :set_order_detail, only: [:update]
+  before_action :is_matching_login_admin
 
   def update
     if @order_detail.update(order_detail_params)
@@ -19,6 +20,13 @@ class Admin::OrderDetailsController < ApplicationController
   def order_detail_params
     params.require(:order_detail).permit(:making_status)
   end
+
+  def is_matching_login_admin
+    unless current_admin
+      redirect_to new_admin_session_path, alert: "管理者としてログインしてください"
+    end
+  end
+
   
 
 end
