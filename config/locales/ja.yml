@@ -17,13 +17,11 @@ ja:
           pending: "製作待ち"
           in_production: "製作中"
           completed: "製作完了"
-
-ja:
   devise:
     sessions:
       signed_in: "ログインしました"
       signed_out: "ログアウトしました"
       admin:
         signed_in: "管理者としてログインしました"
-
-  
+    registrations:
+      signed_up: "登録が完了しました。"
