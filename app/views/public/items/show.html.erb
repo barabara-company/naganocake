@@ -1,3 +1,4 @@
+
 <%= image_tag @item.image.variant(resize: "300x300") %>
 
 <%= @item.name %>
@@ -7,12 +8,16 @@
 <p>￥ <%= number_with_delimiter(@item.tax_included_price.floor) %> (税込) </p>
 
 <!-- カートへ渡す数量選択 url指定カートへ -->
-<%= form_with model: @item, url: cart_items_path(@item), method: :post, local: true do |f| %>
-  <!-- @itemのitem_idをカートのamountへ渡す -->
-  <%= f.hidden_field :item_id, value: @item.id %>
+<% if customer_signed_in? %>
+  <%= form_with model: @item, url: cart_items_path(@item), method: :post, local: true do |f| %>
+    <!-- @itemのitem_idをカートのamountへ渡す -->
+    <%= f.hidden_field :item_id, value: @item.id %>
 
-  <!-- セレクトボックスで1~10個を選択 カートのamountへ渡す -->
-  <%= f.select :amount, *[1..10] %>
-  
-  <%= f.submit "カートに入れる" %>
+    <!-- セレクトボックスで1~10個を選択 カートのamountへ渡す -->
+    <%= f.select :amount, *[1..10] %>
+    
+    <%= f.submit "カートに入れる" %>
+  <% end %>
+<% else %>
+  <p>カートにアイテムを追加するにはログインが必要です。</p>
 <% end %>
