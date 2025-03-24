@@ -1,7 +1,9 @@
 module Public
   class OrdersController < ApplicationController
-    before_action :authenticate_customer!, only: [:new, :confirm, :create, :index, :show, :thanks]
 
+    before_action :is_matching_login_customer
+    before_action :authenticate_customer!
+  
     def new
       @order = Order.new  # ここで @order を初期化
     end
