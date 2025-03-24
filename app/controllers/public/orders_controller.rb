@@ -30,15 +30,15 @@ module Public
           selected = Address.find(params[:order][:registered_address_id])
           @selected_address = selected.postal_code + " " + selected.address + " " + selected.name
         else
-          flash.now[:alert] = "配送先住所を選択してください"
-          render :new
+          flash[:alert] = "配送先住所を選択してください"
+          redirect_to new_order_path
         end
       when "new_address"
         unless params[:order][:new_post_code].blank? && params[:order][:new_address].blank? && params[:order][:new_name].blank?
           @selected_address = params[:order][:new_post_code] + " " + params[:order][:new_address] + " " + params[:order][:new_name]
         else
-          flash.now[:alert] = "配送先住所の作成に失敗しました"
-          render :new
+          flash[:alert] = "配送先住所の作成に失敗しました"
+          redirect_to new_order_path
         end
       end
     end
