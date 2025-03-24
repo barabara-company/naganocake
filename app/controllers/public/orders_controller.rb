@@ -22,6 +22,15 @@ module Public
     
       @total_price = @shipping_fee + @cart_items_price
       @address_type = params[:order][:address_type]
+
+      # 新しい住所が選択されている場合に検証を行う
+      if params[:order][:address_type] == "new_address"
+        if params[:order][:new_post_code].blank? || params[:order][:new_address].blank? || params[:order][:new_name].blank?
+          flash[:alert] = "新しいお届け先情報をすべて入力してください。"
+          redirect_to new_order_path and return
+        end
+      end
+
       case @address_type
       when "member_address"
         @selected_address = current_customer.postal_code + " " + current_customer.address + " " + current_customer.last_name + current_customer.first_name
@@ -31,14 +40,14 @@ module Public
           @selected_address = selected.postal_code + " " + selected.address + " " + selected.name
         else
           flash[:alert] = "配送先住所を選択してください"
-          redirect_to new_order_path
+          redirect_to new_order_path and return
         end
       when "new_address"
         unless params[:order][:new_post_code].blank? && params[:order][:new_address].blank? && params[:order][:new_name].blank?
           @selected_address = params[:order][:new_post_code] + " " + params[:order][:new_address] + " " + params[:order][:new_name]
         else
           flash[:alert] = "配送先住所の作成に失敗しました"
-          redirect_to new_order_path
+          redirect_to new_order_path and return
         end
       end
     end
