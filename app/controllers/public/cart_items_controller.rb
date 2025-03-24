@@ -37,10 +37,10 @@ class Public::CartItemsController < ApplicationController
     redirect_to cart_items_path, notice: "商品をカートから削除しました"
   end
 
-def destroy_all
-  current_customer.cart_items.destroy_all
-  redirect_to cart_items_path, notice: "カートを空にしました"
-end
+  def destroy_all
+    current_customer.cart_items.destroy_all
+    redirect_to cart_items_path, notice: "カートを空にしました"
+  end
 
   private
 
