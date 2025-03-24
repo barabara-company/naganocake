@@ -45,10 +45,8 @@ end
   private
 
   def is_matching_login_customer
-    # ログイン中のカスタマーと編集対象のカスタマーが一致するかチェック
-    if current_customer != @customer
-      flash[:alert] = "不正なアクセスです。"
-      redirect_to root_path
+    unless current_customer
+      redirect_to root_path, alert: "不正なログインです"
     end
   end
 
