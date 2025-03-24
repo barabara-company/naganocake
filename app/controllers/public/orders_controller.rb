@@ -121,16 +121,19 @@ module Public
     def thanks
       # ありがとうページに表示する内容があればここに書く
     end
-  end
 
 
-  private
+    private
 
-  def is_matching_login_customer
-    unless current_customer
-      redirect_to root_path, alert: "不正なログインです"
+    def is_matching_login_customer
+      unless current_customer
+        redirect_to root_path, alert: "不正なログインです"
+      end
     end
   end
+
+
+
 end
 
 
