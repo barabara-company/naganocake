@@ -35,7 +35,7 @@
   </tr>
 </table>
 
-<h4>支払い方法</h4>
+<h4>支払方法</h4>
 <% if @selected_pay_method == "credit_card" %>
   クレジットカード
 <% else %>
@@ -43,7 +43,7 @@
 <% end %>
 
 <h4>お届け先</h4>
-<%= @selected_address %>
+<p>〒<%= @selected_address %></p>
 
 <%= form_with url: orders_path, method: :post do %>
   <%= hidden_field_tag 'order[pay_method]', @selected_pay_method %>
