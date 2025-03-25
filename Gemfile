@@ -57,3 +57,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem "enum_help"
 gem 'kaminari','~> 1.2.1'
+gem 'rails-i18n'  # Railsの日本語化をサポート
+gem 'devise-i18n' # Deviseの日本語化
