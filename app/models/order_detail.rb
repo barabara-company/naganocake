@@ -19,6 +19,9 @@ class OrderDetail < ApplicationRecord
   
   after_update :update_order_status, if: :saved_change_to_making_status?
 
+
+
+
   private
 
   # 製作ステータスの変更に応じて注文ステータスを更新
