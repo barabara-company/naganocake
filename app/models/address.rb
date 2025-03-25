@@ -11,7 +11,7 @@ class Address < ApplicationRecord
   validates :name, presence: true
 
   def address_display
-    '〒' + postal_code + '' + address + '' + name
+    '〒' + postal_code + ' ' + address + ' ' + name
   end
   attr_accessor :address_option
 end

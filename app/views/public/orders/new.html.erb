@@ -1,7 +1,7 @@
 <h3>注文情報入力</h3>
 <%= form_with model: @order, url: orders_confirm_path, method: :post do |f| %>
 
-  <h4>支払い方法</h4>
+  <h4>支払方法</h4>
   <%= f.radio_button :pay_method, "credit_card", checked: true %>
   <%= f.label :pay_method, I18n.t('activerecord.attributes.order.payment_method.credit_card'), value: "credit_card" %>
 
@@ -19,7 +19,7 @@
   <br>
   <%= f.radio_button :address_type, "registered_address" %>
   <%= f.label :address_type, "登録済住所から選択" %>
-  <%= f.select :registered_address_id, current_customer.addresses.all.map { |m| [[m.postal_code, m.address, m.name].join(" "), m.id] }, include_blank: "登録してある配送先住所から選択" %>
+  <%= f.select :registered_address_id, current_customer.addresses.all.map { |m| [[m.address_display].join(" "), m.id] }, include_blank: "登録してある配送先住所から選択" %>
 
   <br>
   <%= f.radio_button :address_type, "new_address" %>

@@ -13,9 +13,9 @@
         <%= image_tag cart_item.item.image, size: "100x80" %>
         <strong><%= cart_item.item.name %></strong>
       </td>
-      <td><%= cart_item.item.tax_included_price.floor %></td>
+      <td><%= number_with_delimiter(cart_item.item.tax_included_price.floor) %></td>
       <td><%= cart_item.amount %></td>  <!-- 修正：quantity ではなく、amountを表示 -->
-      <td><%= cart_item.item.tax_included_price.floor * cart_item.amount %></td>  <!-- 修正：quantity を amount に変更 -->
+      <td><%= number_with_delimiter(cart_item.item.tax_included_price.floor * cart_item.amount) %></td>  <!-- 修正：quantity を amount に変更 -->
     </tr>
   <% end %>
 </table>
@@ -27,11 +27,11 @@
   </tr>
   <tr>
     <td>商品合計</td>
-    <td><%= @cart_items_price %></td>
+    <td><%= number_with_delimiter(@cart_items_price) %></td>
   </tr>
   <tr>
     <td>請求額</td>
-    <td><%= @total_price %></td>
+    <td><%= number_with_delimiter(@total_price) %></td>
   </tr>
 </table>
 
