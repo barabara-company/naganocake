@@ -4,7 +4,6 @@ class Admin::OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])  # 注文情報を取得
-    @cust = @order.customer  # 顧客情報を取得
   end
   
 

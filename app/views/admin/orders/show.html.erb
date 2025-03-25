@@ -15,7 +15,7 @@
   </tr>
   <tr>
     <th>支払方法</th>
-    <td><%= @order.payment_method == 0 ? "クレジットカード" : "銀行振込" %></td>
+    <td><%= I18n.t("activerecord.attributes.order.payment_method.#{@order.payment_method}") %></td>
   </tr>
   <tr>
     <th>注文ステータス</th>
@@ -27,7 +27,6 @@
     </td>
   </tr>
 </table>
-
 
 <table class='table table-hover table-inverse'>
   <tr>
