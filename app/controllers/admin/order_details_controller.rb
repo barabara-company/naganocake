@@ -27,6 +27,4 @@ class Admin::OrderDetailsController < ApplicationController
     end
   end
 
-  
-
 end

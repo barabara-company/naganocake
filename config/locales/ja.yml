@@ -17,7 +17,54 @@ ja:
           pending: "製作待ち"
           in_production: "製作中"
           completed: "製作完了"
+      customer:
+        email: "メールアドレス"
+        password: "パスワード"
+        last_name: "姓"
+        first_name: "名"
+        last_name_kana: "姓（カナ）"
+        first_name_kana: "名（カナ）"
+        postal_code: "郵便番号"
+        address: "住所"
+        telephone_number: "電話番号"
+  errors:
+    messages:
+      not_saved: "保存に失敗しました"
+      blank: "を入力してください"
+      invalid: "が正しくありません"
+    attributes:
+      email:
+        blank: "を入力してください"
+      password:
+        blank: "を入力してください"
+      last_name:
+        blank: "を入力してください"
+      first_name:
+        blank: "を入力してください"
+      last_name_kana:
+        blank: "を入力してください"
+      first_name_kana:
+        blank: "を入力してください"
+      postal_code:
+        blank: "を入力してください"
+        invalid: "郵便番号は7桁の数字で入力してください"
+      address:
+        blank: "を入力してください"
+      telephone_number:
+        blank: "を入力してください"
+        invalid: "電話番号が正しくありません"
   devise:
+    failure:
+      invalid: "メールアドレスまたはパスワードが正しくありません"
+      customer:
+        invalid: "メールアドレスまたはパスワードが正しくありません"
+      unconfirmed: "アカウントの確認が必要です"
+      locked: "アカウントがロックされています"
+      last_attempt: "アカウントがロックされる前の最後の試行です"
+      not_found_in_database: "メールアドレスまたはパスワードが正しくありません"
+      timeout: "セッションの有効期限が切れました。再度ログインしてください"
+      unauthenticated: "ログインが必要です"
+      already_authenticated: "すでにログインしています"
     sessions:
       signed_in: "ログインしました"
       signed_out: "ログアウトしました"
@@ -25,3 +72,4 @@ ja:
         signed_in: "管理者としてログインしました"
     registrations:
       signed_up: "登録が完了しました。"
+
