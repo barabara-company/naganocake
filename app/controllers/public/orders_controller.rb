@@ -111,7 +111,7 @@ module Public
     end
     
     def index
-      @orders = Order.all
+      @orders = Order.order(created_at: :desc)
     end
    
     def show
