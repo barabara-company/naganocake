@@ -16,7 +16,19 @@ class OrderDetail < ApplicationRecord
   def subtotal
     price * amount
   end
+  
+  after_update :update_order_status, if: :saved_change_to_making_status?
 
+  private
+
+  # 製作ステータスの変更に応じて注文ステータスを更新
+  def update_order_status
+    if in_production? # 1つでも「製作中」なら注文ステータスを「製作中」に変更
+      order.update(status: :in_production)
+    elsif order.order_details.all? { |detail| detail.completed? } # 全て「製作完了」なら注文ステータスを「発送準備中」に変更
+      order.update(status: :preparing_for_shipment)
+    end
+  end
 
 end
 
