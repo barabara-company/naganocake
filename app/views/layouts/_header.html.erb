@@ -1,7 +1,9 @@
 <header>
   <% if customer_signed_in? %>
     <!-- カスタマー用メニュー -->
-    <%= link_to "LOGO", root_path %>
+    <%= link_to root_path do %>
+      <%= image_tag "naganocake_logo.jpg", width: 100, height: 50, alt: "" %>
+    <% end %>
     <%= "ようこそ#{current_customer.last_name}さん！" %>
     <ul>
       <li>
@@ -25,7 +27,7 @@
 
   <% elsif admin_signed_in? %>
     <!-- 管理者用メニュー -->
-    <h1>LOGO</h1>
+    <%= image_tag "naganocake_logo.jpg", width: 100, height: 50, alt: "" %>
     <ul>
       <li>
         <%= link_to "商品一覧", admin_items_path %>
@@ -51,7 +53,9 @@
 
   <% else %>
     <!-- ログイン前 -->
-    <%= link_to "LOGO", root_path %>
+    <%= link_to root_path do %>
+      <%= image_tag "naganocake_logo.jpg", width: 100, height: 50, alt: "" %>
+    <% end %>
     <ul>
       <li>
         <%= link_to "About",about_path %>
