@@ -3,7 +3,8 @@ module Public
 
     before_action :is_matching_login_customer
     before_action :authenticate_customer!
-  
+    before_action :redirect_if_confirm, only: :show
+
     def new
       @order = Order.new  # ここで @order を初期化
     end
@@ -128,6 +129,12 @@ module Public
     def is_matching_login_customer
       unless current_customer
         redirect_to root_path, alert: "不正なログインです"
+      end
+    end
+
+    def redirect_if_confirm
+      if request.path.match?(/\/orders\/confirm/)
+        redirect_to new_order_path
       end
     end
   end
