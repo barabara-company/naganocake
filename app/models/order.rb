@@ -15,7 +15,7 @@ class Order < ApplicationRecord
     bank_transfer: 1
   }
 
-    # customer_id	DBレベルに近く、単純で高速	存在しないIDでもバリデ通る
+  # customer_id	DBレベルに近く、単純で高速	存在しないIDでもバリデ通る
   # customer	関連先が存在するかも確認できる	少しだけ遅い（無視できるレベル）関連先が存在しないと困るならこっち
   validates :customer, presence: true
   validates :name, presence: true

@@ -7,13 +7,13 @@ ja:
           bank_transfer: "銀行振込"
         status:
           waiting_for_payment: "入金待ち"
-          payment_confirmed: "入金確認" 
+          payment_confirmed: "入金確認"
           in_production: "製作中"
-          preparing_for_shipment: "発送準備中" 
-          shipped: "発送済み" 
+          preparing_for_shipment: "発送準備中"
+          shipped: "発送済み"
       order_detail:
         making_status:
-          not_possible: "製作不可"
+          not_possible: "着手不可"
           pending: "製作待ち"
           in_production: "製作中"
           completed: "製作完了"
@@ -72,4 +72,3 @@ ja:
         signed_in: "管理者としてログインしました"
     registrations:
       signed_up: "登録が完了しました。"
-
