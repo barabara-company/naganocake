@@ -16,7 +16,7 @@ class Public::CustomersController < ApplicationController
       redirect_to customer_path(current_customer)
     else
       flash.now[:alert] = "更新に失敗しました"
-      render :edit
+      redirect_to edit_customer_path(current_customer)
     end
   end  
 
