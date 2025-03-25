@@ -69,11 +69,6 @@ module Public
       @cart_items_price = ary.sum
       @order.total_payment = @order.shipping_cost + @cart_items_price
       @order.payment_method = params[:order][:pay_method]
-      if @order.payment_method == "credit_card"
-        @order.status = 1
-      else
-        @order.status = 0
-      end
     
       address_type = params[:order][:address_type]
       case address_type
@@ -93,15 +88,9 @@ module Public
       end
     
       if @order.save
-        if @order.status == 0
           @cart_items.each do |cart_item|
             OrderDetail.create!(orders_id: @order.id, item_id: cart_item.item.id, price: cart_item.item.price, amount: cart_item.amount, making_status: 0) # 修正：quantity -> amount
           end
-        else
-          @cart_items.each do |cart_item|
-            OrderDetail.create!(orders_id: @order.id, item_id: cart_item.item.id, price: cart_item.item.price, amount: cart_item.amount, making_status: 1) # 修正：quantity -> amount
-          end
-        end
         @cart_items.destroy_all
         redirect_to orders_thanks_path
       else
