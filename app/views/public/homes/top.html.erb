@@ -1,7 +1,17 @@
-<p>ようこそ、ながのCAKEへ！</p>
-<p>このサイトは、ケーキ販売のECサイトになります。</p>
-<p>会員でない方も商品の閲覧はできますが、</p>
-<p>購入には会員登録が必要になります。</p>
+<div class="position-relative" style="background-image: url('<%= asset_path('naganocake5.jpg') %>'); background-size: cover; background-position: center; height: 400px;">
+  <!-- 背景画像の上に半透明のオーバーレイを追加 -->
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: 0;"></div>
+  
+  <!-- 文字を中央に配置、文字はオーバーレイの影響を受けない -->
+  <div class="d-flex justify-content-center align-items-center w-100 h-100 text-white text-center" style="z-index: 1;">
+    <div>
+      <p class="fs-4 fw-bold">ようこそ、ながのCAKEへ！</p>
+      <p>このサイトは、ケーキ販売のECサイトになります。</p>
+      <p>会員でない方も商品の閲覧はできますが、</p>
+      <p>購入には会員登録が必要になります。</p>
+    </div>
+  </div>
+</div>
 
 <h2>新着商品</h2>
 <% @items.each do |item| %>
