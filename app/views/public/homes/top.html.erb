@@ -14,13 +14,18 @@
 </div>
 
 <h2>新着商品</h2>
-<% @items.each do |item| %>
-  <% if item.image.present? %>
-    <%= link_to item_path(item) do %>
-      <%= image_tag item.image %>
-    <% end %>
+<div class="row">
+  <% @items.each do |item| %>
+    <div class="col-md-4 mb-4"> <!-- ここで列の幅を指定 -->
+      <% if item.image.present? %>
+        <%= link_to item_path(item) do %>
+          <%= image_tag item.image, class: "img-fluid" %> <!-- img-fluidで画像をレスポンシブに -->
+        <% end %>
+      <% end %>
+      <h5><%= item.name %></h5>
+      <p>¥<%= number_with_delimiter(item.price) %></p>
+    </div>
   <% end %>
-  <h5><%= item.name %></h5>
-  <p>¥<%= number_with_delimiter(item.price) %></p>
-<% end %>
+</div>
+
 <%= link_to 'すべての商品を見る＞', items_path %>
