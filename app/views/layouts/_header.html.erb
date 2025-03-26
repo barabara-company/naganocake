@@ -1,79 +1,68 @@
-<header>
-  <% if customer_signed_in? %>
-    <!-- カスタマー用メニュー -->
-    <%= link_to root_path do %>
-      <%= image_tag "naganocake_logo.jpg", width: 100, height: 50, alt: "" %>
+<header class="navbar navbar-expand-lg navbar-light bg-light p-3">
+  <div class="container-fluid">
+    <!-- ロゴ -->
+    <% if admin_signed_in? %>
+      <img src="<%= asset_path('naganocake_logo.jpg') %>" width="100" height="50" alt="Naganocake">
+    <% else %>
+      <%= link_to root_path do %>
+        <img src="<%= asset_path('naganocake_logo.jpg') %>" width="100" height="50" alt="Naganocake">
+      <% end %>
     <% end %>
-    <%= "ようこそ#{current_customer.last_name}さん！" %>
-    <ul>
-      <li>
-        <%= link_to "マイページ", customer_path(current_customer) %>
-      </li>
-      <li>
-        <%= link_to "商品一覧", items_path %>
-      </li>
-      <li>
-        <%= link_to "カート", cart_items_path %>
-      </li>
-      <li>
-        <%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
-      </li>
-    </ul>
-    <!-- 空の検索ボックス -->
-    <form action="#" method="get">
-      <input type="text" name="q" placeholder="search" class="search-box">
-      <button type="submit">search</button>
-    </form>
 
-  <% elsif admin_signed_in? %>
-    <!-- 管理者用メニュー -->
-    <%= image_tag "naganocake_logo.jpg", width: 100, height: 50, alt: "" %>
-    <ul>
-      <li>
-        <%= link_to "商品一覧", admin_items_path %>
-      </li>
-      <li>
-        <%= link_to "会員一覧", admin_customers_path %>
-      </li>
-      <li>
-        <%= link_to "注文履歴一覧", admin_root_path %>
-      </li>
-      <li>
-        <%= link_to "ジャンル一覧", admin_genres_path %>
-      </li>
-      <li>
-        <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
-      </li>
-    </ul>
-    <!-- 空の検索ボックス -->
-    <form action="#" method="get">
-      <input type="text" name="q" placeholder="search" class="search-box">
-      <button type="submit">search</button>
-    </form>
+    <!-- 名前表示 -->
+    <div class="mx-auto">
+      <% if customer_signed_in? %>
+        <span class="navbar-text">ようこそ<%= current_customer.last_name %>さん！</span>
+      <% end %>
+    </div>
 
-  <% else %>
-    <!-- ログイン前 -->
-    <%= link_to root_path do %>
-      <%= image_tag "naganocake_logo.jpg", width: 100, height: 50, alt: "" %>
-    <% end %>
-    <ul>
-      <li>
-        <%= link_to "About",about_path %>
-      </li>
-      <li>
-        <%= link_to "商品一覧", items_path %>
-      </li>
-      <li>
-        <%= link_to "新規登録", new_customer_registration_path %>
-      </li>
-      <li>
-        <%= link_to "ログイン", new_customer_session_path %>
-      </li>
+    <!-- ナビメニュー -->
+    <ul class="navbar-nav ms-auto">
+      <% if customer_signed_in? %>
+        <li class="nav-item">
+          <%= link_to "マイページ", customer_path(current_customer), class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "商品一覧", items_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "カート", cart_items_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "nav-link" %>
+        </li>
+
+      <% elsif admin_signed_in? %>
+        <li class="nav-item">
+          <%= link_to "商品一覧", admin_items_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "会員一覧", admin_customers_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "注文履歴一覧", admin_root_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ジャンル一覧", admin_genres_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "nav-link" %>
+        </li>
+
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "About", about_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "商品一覧", items_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "新規登録", new_customer_registration_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", new_customer_session_path, class: "nav-link" %>
+        </li>
+      <% end %>
     </ul>
-    <!-- 空の検索ボックス -->
-    <form action="#" method="get">
-      <input type="text" name="q" placeholder="search" class="search-box">
-      <button type="submit">search</button>
-    </form>
-  <% end %>
+  </div>
 </header>
