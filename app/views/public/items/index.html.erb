@@ -1,21 +1,23 @@
-<h1>商品一覧</h1>
+<h5 class="text-left"><strong>商品一覧</strong><span>（全<%= @items2.count %>件）</span></h5>
+<div class="row justify-content-center">
+  <% @items.each do |item| %>
+    <div class="col-md-3 col-sm-6 col-12 text-center">
+      <!-- 商品画像 variantでサイズ変更 processedで未処理の画像がある場合でもエラーにならない -->
+      <%= link_to item_path(item) do %>
+        <%= image_tag item.image.variant(resize: "200x200").processed %>
+      <% end %><br>
 
-<!-- 登録商品数 -->
-<h2><%= "(全#{@items.count}件)" %></h2>
+      <%= item.name %><br>
 
-<!-- 登録商品リスト -->
-<% @items.each do |item| %>
+      <!-- number_with_delimiter金額に税10%するメソッド floor小数点切り捨て %-->
+      ¥<%= number_with_delimiter(item.tax_included_price.floor) %>
+    </div>
+  <% end %>
 
-  <!-- 商品画像 variantでサイズ変更 processedで未処理の画像がある場合でもエラーにならない -->
-  <%= link_to item_path(item) do %>
-    <%= image_tag item.image.variant(resize: "300x300").processed %>
-  <% end %><br>
-
-  <%= item.name %><br>
-
-  <!-- number_with_delimiter金額に税10%するメソッド floor小数点切り捨て %-->
-  ¥<%= number_with_delimiter(item.tax_included_price.floor) %>
-<% end %>
-
-<!-- ページネーション -->
-<%= paginate @items %>
+</div>
+<div class="row justify-content-center">
+  <!-- ページネーション -->
+  <div class="text-center">
+    <%= paginate @items %>
+  </div>
+</div>
