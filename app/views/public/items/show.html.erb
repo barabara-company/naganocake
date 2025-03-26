@@ -1,23 +1,38 @@
+<div class="container my-5">
+  <div class="row">
+    <!-- 左側: 商品画像 -->
+    <div class="col-md-6 text-center">
+      <%= image_tag @item.image.variant(resize: "350x350"), class: "img-fluid rounded", alt: @item.name %>
+    </div>
 
-<%= image_tag @item.image.variant(resize: "300x300") %>
+    <!-- 右側: 商品情報 -->
+    <div class="col-md-6">
+      <h2 class="font-weight-bold mb-3"><%= @item.name %></h2>
 
-<%= @item.name %>
+      <p class="lead"><%= @item.introduction %></p>
+      <p class="h4 font-weight-bold d-inline">
+        ￥<%= number_with_delimiter(@item.tax_included_price.floor) %>
+      </p>
+      <span class="normal-text">(税込)</span>
 
-<%= @item.introduction %>
+      <% if customer_signed_in? %>
+        <%= form_with model: @item, url: cart_items_path(@item), method: :post, local: true, class: "form-inline" do |f| %>
+          <!-- 商品IDを非表示で送信 -->
+          <%= f.hidden_field :item_id, value: @item.id %>
 
-<p>￥ <%= number_with_delimiter(@item.tax_included_price.floor) %> (税込) </p>
+          <!-- 数量選択 -->
+          <div class="form-group mr-3">
+            <%= f.select :amount, (1..100).to_a, { prompt: "個数選択" }, { class: "form-control w-auto custom-select styled-select" } %>
+          </div>
 
-<!-- カートへ渡す数量選択 url指定カートへ -->
-<% if customer_signed_in? %>
-  <%= form_with model: @item, url: cart_items_path(@item), method: :post, local: true do |f| %>
-    <!-- @itemのitem_idをカートのamountへ渡す -->
-    <%= f.hidden_field :item_id, value: @item.id %>
-
-    <!-- セレクトボックスで1~10個を選択 カートのamountへ渡す -->
-    <%= f.select :amount, *[1..100] %>
-    
-    <%= f.submit "カートに入れる" %>
-  <% end %>
-<% else %>
-  <p>カートにアイテムを追加するにはログインが必要です。</p>
-<% end %>
+          <!-- 緑色のカートボタン -->
+          <%= f.submit "カートに入れる", class: "btn btn-success" %>
+        <% end %>
+      <% else %>
+        <div class="alert alert-warning text-center" role="alert">
+          カートにアイテムを追加するにはログインが必要です。
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
