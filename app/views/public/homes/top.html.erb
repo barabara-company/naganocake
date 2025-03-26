@@ -23,7 +23,7 @@
         <% end %>
       <% end %>
       <h5><%= item.name %></h5>
-      <p>¥<%= number_with_delimiter(item.price) %></p>
+      <p>¥<%= number_with_delimiter(item.tax_included_price.floor) %></p>
     </div>
   <% end %>
 </div>
