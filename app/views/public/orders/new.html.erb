@@ -1,47 +1,64 @@
-<h3>注文情報入力</h3>
-<%= form_with model: @order, url: orders_confirm_path, method: :post do |f| %>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h3 class="font-weight-bold bg-light text-dark d-inline-block p-2 rounded ml-5">注文情報入力</h3>
+        <%= form_with model: @order, url: orders_confirm_path, method: :post do |f| %>
 
-  <h4>支払方法</h4>
-  <%= f.radio_button :pay_method, "credit_card", checked: true %>
-  <%= f.label :pay_method, I18n.t('activerecord.attributes.order.payment_method.credit_card'), value: "credit_card" %>
+        <h4 class="font-weight-bold">支払方法</h4>
+        <div class="ml-3">
+          <%= f.radio_button :pay_method, "credit_card", checked: true %>
+          <%= f.label :pay_method, I18n.t('activerecord.attributes.order.payment_method.credit_card'), value: "credit_card" %>
 
-  <br>
-  <%= f.radio_button :pay_method, "bank_transfer" %>
-  <%= f.label :pay_method, I18n.t('activerecord.attributes.order.payment_method.bank_transfer'), value: "bank_transfer" %>
+          <br>
+          <%= f.radio_button :pay_method, "bank_transfer" %>
+          <%= f.label :pay_method, I18n.t('activerecord.attributes.order.payment_method.bank_transfer'), value: "bank_transfer" %>
+        </div>
 
-  <div>
-    <h4>お届け先</h4>
-    <%= f.radio_button :address_type, "member_address", checked: true %>
-    <%= f.label :address_type, "ご自身の住所" %>
-    〒<%= current_customer.postal_code + " " + current_customer.address + " " + current_customer.last_name + current_customer.first_name %>
+        <div>
+          <h4 class="font-weight-bold ">お届け先</h4>
+          <div class="ml-3 mb-2">
+
+          <%= f.radio_button :address_type, "member_address", checked: true %>
+          <%= f.label :address_type, "ご自身の住所", class: "mb-0" %><br>
+          <div class="ml-4"> <!-- ml-4で右に余白を追加 -->
+            〒<%= current_customer.postal_code + " " + current_customer.address %><br>
+            <%= current_customer.last_name + " " + current_customer.first_name %>
+          </div>     
+          </div>
+        </div>
+
+        <div class="ml-3 mb-2">
+          <%= f.radio_button :address_type, "registered_address" %>
+          <%= f.label :address_type, "登録済住所から選択", class: "mb-1" %><br>
+          <div class="ml-4"> <!-- ml-4で右に余白を追加 -->
+            <%= f.select :registered_address_id, current_customer.addresses.all.map { |m| [[m.address_display].join(" "), m.id] }, include_blank: "登録してある配送先住所から選択", class: "form-control rounded-input" %>
+          </div>
+        </div>
+
+        <div class="ml-3 mb-2">
+          <%= f.radio_button :address_type, "new_address" %>
+          <%= f.label :address_type, "新しいお届け先", class: "mb-0" %>
+          <table>
+          <tr>
+            <td class="pl-3">郵便番号(ハイフンなし)</td>
+            <td><%= f.text_field :new_post_code, class: "form-control rounded-input w-50", placeholder: "0000000" %></td>
+          </tr>
+          <tr>
+            <td class="pl-3">住所</td>
+            <td><%= f.text_field :new_address, class: "form-control rounded-input", style: "width: 400px;", placeholder: "東京都渋谷区代々木神園町0-0" %></td>
+          </tr>
+          <tr>
+            <td class="pl-3">宛名</td>
+            <td><%= f.text_field :new_name, class: "form-control rounded-input w-50", placeholder: "令和道子" %></td>
+          </tr>
+        </table>
+                  </div>
+
+        <br>
+        <div class="text-center">
+          <%= button_to '確認画面へ進む', orders_confirm_path, method: :post, class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <br>
-  <%= f.radio_button :address_type, "registered_address" %>
-  <%= f.label :address_type, "登録済住所から選択" %>
-  <%= f.select :registered_address_id, current_customer.addresses.all.map { |m| [[m.address_display].join(" "), m.id] }, include_blank: "登録してある配送先住所から選択" %>
-
-  <br>
-  <%= f.radio_button :address_type, "new_address" %>
-  <%= f.label :address_type, "新しいお届け先" %>
-  <table>
-    <tr>
-      <td>郵便番号(ハイフンなし)</td>
-      <td><%= f.text_field :new_post_code %></td>
-    </tr>
-    <tr>
-      <td>住所</td>
-      <td><%= f.text_field :new_address %></td>
-    </tr>
-    <tr>
-      <td>宛名</td>
-      <td><%= f.text_field :new_name %></td>
-    </tr>
-  </table>
-
-  <br>
-  <%= button_to '注文確認画面へ進む', orders_confirm_path, method: :post, class: "btn btn-primary" %>
-<% end %>
-
-
-
+</div>
