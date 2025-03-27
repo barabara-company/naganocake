@@ -16,18 +16,23 @@
       <span class="normal-text">(税込)</span>
 
       <% if customer_signed_in? %>
+
         <%= form_with model: @item, url: cart_items_path(@item), method: :post, local: true, class: "form-inline" do |f| %>
           <!-- 商品IDを非表示で送信 -->
           <%= f.hidden_field :item_id, value: @item.id %>
-
+        
+          <!-- デフォルト値を送信するためのhidden_field -->
+          <%= f.hidden_field :amount, value: 1, id: "default-amount" %>
+        
           <!-- 数量選択 -->
           <div class="form-group mr-3">
-            <%= f.select :amount, (1..100).to_a, { prompt: "個数選択" }, { class: "form-control w-auto custom-select styled-select" } %>
-          </div>
-
+            <%= f.select :amount, (1..100).to_a, { prompt: "個数選択" }, { class: "form-control w-auto", id: "amount-select", required: true } %>
+          </div>        
           <!-- 緑色のカートボタン -->
           <%= f.submit "カートに入れる", class: "btn btn-success" %>
         <% end %>
+
+
       <% else %>
         <div class="alert alert-warning text-center" role="alert">
           カートにアイテムを追加するにはログインが必要です。
