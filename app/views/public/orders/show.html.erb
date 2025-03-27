@@ -1,77 +1,82 @@
-<h1>注文履歴詳細</h1>
+<h5 class="text-center mt-5"><strong><span class="bg-light text-dark px-1">注文履歴詳細</span></strong></h5>
 
-<h3>注文情報</h3>
-<table>
-  <tbody>
-    <tr>
-      <td>注文日</td>
-      <!-- strftime("%Y/%m/%d") で yyyy/mm/dd表記に変更 -->
-      <td><%= @order.created_at.in_time_zone('Asia/Tokyo').strftime("%Y/%m/%d") %></td>
-    </tr>
-    <tr>
-      <td>配送先</td>
-      <td>
-        〒<%= @order.postal_code %><br>
-        <%= @order.address %><br>
-        <%= @order.name %>
-      </td>
-    </tr>
-    <tr>
-      <td>支払方法</td>
-      <td><%= t("activerecord.attributes.order.payment_method.#{@order.payment_method}") %></td>
-    </tr>
-    <tr>
-      <td>ステータス</td>
-      <td><%= t("activerecord.attributes.order.status.#{@order.status}") %></td>
-    </tr>
-  </tbody>
-</table>
+<div class="container mt-4">
+  <!-- 注文情報 & 請求情報を横並び -->
+  <div class="d-flex justify-content-between">
+    <!-- 注文情報 -->
+    <div style="width: 60%;">
+      <p><strong>注文情報</strong></p>
+      <table class="table table-bordered p-3">
+        <tbody>
+          <tr>
+            <td style="background-color: #d3d3d3;">注文日</td>
+            <td><%= @order.created_at.in_time_zone('Asia/Tokyo').strftime("%Y/%m/%d") %></td>
+          </tr>
+          <tr>
+            <td style="background-color: #d3d3d3;">配送先</td>
+            <td>
+              〒<%= @order.postal_code %><br>
+              <%= @order.address %><br>
+              <%= @order.name %>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color: #d3d3d3;">支払方法</td>
+            <td><%= t("activerecord.attributes.order.payment_method.#{@order.payment_method}") %></td>
+          </tr>
+          <tr>
+            <td style="background-color: #d3d3d3;">ステータス</td>
+            <td><%= t("activerecord.attributes.order.status.#{@order.status}") %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
+    <!-- 請求情報 -->
+    <div style="width: 35%;">
+      <p><strong>請求情報</strong></p>
+      <table class="table table-bordered p-3">
+        <tbody>
+          <tr>
+            <td style="background-color: #d3d3d3;">商品合計</td>
+            <td><%= number_with_delimiter(@order.total_payment.floor) %>円</td>
+          </tr>
+          <tr>
+            <td style="background-color: #d3d3d3;">配送料</td>
+            <td><%= @order.shipping_cost %>円</td>
+          </tr>
+          <tr>
+            <td style="background-color: #d3d3d3;"><strong>ご請求額</strong></td>
+            <td><strong><%= number_with_delimiter(@order.total_payment.floor + @order.shipping_cost) %>円</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
+  <!-- 注文内容（横並びの下） -->
+  <div class="mt-4">
+    <p><strong>注文内容</strong></p>
+    <table class="table table-bordered p-3" style="width: 70%;">
+      <thead>
+        <tr>
+          <th style="width: 40%; background-color: #d3d3d3;">商品</th>
+          <th style="width: 12%; background-color: #d3d3d3;">単価（税込）</th>
+          <th style="width: 7%; background-color: #d3d3d3;">個数</th>
+          <th style="width: 7%; background-color: #d3d3d3;">小計</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order_details.each do |order_detail| %>
+          <tr>
+            <td><%= order_detail.item.name %></td>
+            <td><%= order_detail.item.tax_included_price.floor %>円</td>
+            <td><%= order_detail.amount %></td>
+            <td><%= order_detail.item.tax_included_price.floor * order_detail.amount.floor %>円</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<h3>請求情報</h3>
-<table>
-  <tbody>
-    <tr>
-      <td>商品合計</td>
-      <!-- number_with_delimiterで3行ごとに , を入れる floorで小数点消す-->
-      <td><%= number_with_delimiter(@order.total_payment.floor) %></td>
-    </tr>
-    <tr>
-      <td>配送料</td>
-      <td><%= @order.shipping_cost %></td>
-    </tr>
-    <tr>
-      <td>ご請求額</td>
-      <td> <%= number_with_delimiter(@order.total_payment.floor + @order.shipping_cost) %></td>
-    </tr>
-  </tbody>
-</table>
-
-
-<h3>注文内容</h3>
-<table>
-  <thead>
-    <th>商品</th>
-    <th>単価（税込）</th>
-    <th>個数</th>
-    <th>小計</th>
-  </thead>
-  <tbody>
-    <% @order_details.each do |order_detail| %>
-      <tr>
-        <!-- 商品 -->
-        <td><%= order_detail.item.name %></td>
-
-        <!-- 単価税込 -->
-        <td><%= order_detail.item.tax_included_price.floor %></td>
-
-        <!-- 個数 -->
-        <td><%= order_detail.amount %></td>
-
-        <!-- 小計 -->
-        <td><%= order_detail.item.tax_included_price.floor * order_detail.amount.floor %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
