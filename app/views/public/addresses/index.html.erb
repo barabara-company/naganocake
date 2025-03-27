@@ -1,46 +1,61 @@
-<h5>配送先登録/一覧</h5>
-<%= form_with(model: @new_address, url: addresses_path, local: true) do |f| %>
-  <div>
-    <%= f.label :postal_code, "郵便番号(ハイフンなし)" %>
-    <%= f.text_field :postal_code, required: true, pattern: '\d{7}', maxlength: 7, title: '7桁の数字のみ入力してください' %>
+<div class="container">
+<h5 class="text-end m-4">
+  <strong><span class="bg-light text-dark px-2">配送先登録/一覧</span></strong>
+</h5>
+  <div class="row  justify-content-center" >
+    <div class="col-md-10 col-lg-8">
+      <%= form_with(model: @new_address, url: addresses_path, local: true, class: "p-3") do |f| %>
+        <div class="mb-3 row align-items-center">
+              <label class="col-md-5 col-form-label text-end"><%= f.label :postal_code, "郵便番号(ハイフンなし)" %></label>
+            <div class="col-md-3">
+              <%= f.text_field :postal_code, required: true, pattern: '\d{7}', maxlength: 7, title: '7桁の数字のみ入力してください', class: "form-control" %>
+            </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+            <label class="col-md-5 col-form-label text-end"><%= f.label :address, "住所" %></label>
+          <div class="col-md-7">
+            <%= f.text_field :address, required: true, class: "form-control w-80" %>
+          </div>
+        </div>
+
+        <div class="mb-3 row align-items-center">
+          <label class="col-md-5 col-form-label text-end"><%= f.label :name, "宛名" %></label>
+          <div class="col-md-4">
+            <%= f.text_field :name, required: true, class: "form-control" %>
+          </div>
+          <div class="col-md-3">
+            <%= f.submit '新規登録', class: "btn btn-success px-4 ml-9" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div>
-    <%= f.label :address, "住所" %>
-    <%= f.text_field :address, required: true %>
+  <div class="table-responsive mt-4">
+    <table class = "table table-bordered bg">
+      <thead class="table">
+        <tr>
+          <th class="text-nowrap">郵便番号</th>
+          <th class="text-nowrap">住所</th>
+          <th class="text-nowrap">宛名</th>
+          <th class="text-nowrap"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @addresses.each do |address| %>
+          <tr>
+            <td><%= address.postal_code %></td>
+            <td><%= address.address %></td>
+            <td><%= address.name %></td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-3">
+                <%= link_to '編集する', edit_address_path(address), class: "btn btn-success m-2" %>
+                <%= button_to '削除する', address, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger m-2" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-
-  <div>
-    <%= f.label :name, "宛名" %>
-    <%= f.text_field :name, required: true %>
-  </div>
-
-  <div>
-    <%= f.submit '新規登録', class: "btn btn-success" %>
-  </div>
-<% end %>
-
-
-<table>
-  <thead>
-    <tr>
-      <th>郵便番号</th>
-      <th>住所</th>
-      <th>宛名</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @addresses.each do |address| %>
-      <tr>
-        <td><%= address.postal_code %></td>
-        <td><%= address.address %></td>
-        <td><%= address.name %></td>
-        <td>
-          <%= link_to '編集する', edit_address_path(address), class: "btn btn-success" %>
-          <%= button_to '削除する', address, method: :delete, data: { confirm: '本当に削除しますか？' }, class: "btn btn-danger" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+</div>
