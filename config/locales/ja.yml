@@ -72,3 +72,9 @@ ja:
         signed_in: "管理者としてログインしました"
     registrations:
       signed_up: "登録が完了しました。"
+  views:
+    pagination:
+      first: "<< First"
+      last: "Last >>"
+      previous: "< Prev"
+      next: "Next >"
