@@ -1,32 +1,61 @@
-<h1>商品新規登録</h1>
-<!-- urlをadmin_items_pathに指定しないと /items になってしまう -->
-<%= form_with model: @item, url: admin_items_path, method: :post, local: true, html: { multipart: true } do |f| %>
-  <%= f.label :image, "商品画像" %>
-  <!-- 画像 acceptで画像ファイルのみ選択 -->
-  <%= f.file_field :image, accept: "image/*" %>
-
-  <%= f.label :name, "商品名" %>
-  <!-- 商品名 placeholderで入力フィールドにガイドを表示 -->
-  <%= f.text_field :name, placeholder: "商品名" %>
-
-  <%= f.label :introduction, "商品説明" %>
-  <%= f.text_area :introduction, placeholder: "ここに説明分を記述します" %>
-
-  <%= f.label :genre_id, "ジャンル" %>
-  <!-- 補足 options_from_collection_for_select(コレクション, 値の属性, 表示する属性, 初期選択値) -->
-  <%= f.select :genre_id, options_from_collection_for_select(Genre.all, :id, :name, @item.genre_id) %>
-
-  <%= f.label :price, "税抜価格" %>
-  <!-- minで0以上の数値に設定 stepで小数点以下を入力できないように -->
-  <%= f.number_field :price, placeholder: "1000", min: 0, step: 1 %>
-
-  <%= f.label :is_active, "販売ステータス" %>
-  <!-- 販売中 -->
-  <%= f.radio_button :is_active, true %>
-  <%= f.label :is_active_selling, "販売中" %>
-  <!-- 販売中止 -->
-  <%= f.radio_button :is_active, false %>
-  <%= f.label :is_active_stopped, "販売停止中" %>
-
-  <%= f.submit "新規登録" %>
-<% end %>
+<div class="container">
+  <h5 class="m-4">
+    <strong><span class="bg-light text-dark px-2">商品新規登録</span></strong>
+  </h5>
+    <div class="row  justify-content-center" >
+      <div class="col-md-10 col-lg-8">
+        <!-- urlをadmin_items_pathに指定しないと /items になってしまう -->
+        <%= form_with model: @item, url: admin_items_path, method: :post, local: true, html: { multipart: true } do |f| %>
+            <div class="mb-3 row align-items-center">
+              <label class="col-md-5 col-form-label text-end"><strong><%= f.label :image, "商品画像" %></strong></label>
+              <div class="col-md-3">
+                <!-- 画像 acceptで画像ファイルのみ選択 -->
+                <%= f.file_field :image, accept: "image/*" %>
+              </div>
+            </div>
+            <div class="mb-3 row align-items-center">
+              <label class="col-md-5 col-form-label text-end"><strong><%= f.label :name, "商品名" %></strong></label>
+              <div class="col-md-3">
+                <!-- 商品名 placeholderで入力フィールドにガイドを表示 -->
+                <%= f.text_field :name, placeholder: "商品名" %>
+              </div>
+            </div>
+            <div class="mb-3 row align-items-center">
+              <label class="col-md-5 col-form-label text-end"><strong><%= f.label :introduction, "商品説明" %></strong></label>
+              <div class="col-md-7">
+                <%= f.text_area :introduction, placeholder: "ここに説明文を記述します" %>
+              </div>
+            </div>
+            <div class="mb-3 row align-items-center">
+              <label class="col-md-5 col-form-label text-end"><strong><%= f.label :genre_id, "ジャンル" %></strong></label>
+              <div class="col-md-3">
+                <!-- 補足 options_from_collection_for_select(コレクション, 値の属性, 表示する属性, 初期選択値) -->
+                <%= f.select :genre_id, options_from_collection_for_select(Genre.all, :id, :name, @item.genre_id), include_blank: '--選択してください--' %>
+              </div>
+            </div>
+            <div class="mb-3 row align-items-center">
+              <label class="col-md-5 col-form-label text-end"><strong><%= f.label :price, "税抜価格" %></strong></label>
+              <div class="col-md-4">
+                <!-- minで0以上の数値に設定 stepで小数点以下を入力できないように -->
+                <%= f.number_field :price, placeholder: "1000", min: 0, step: 1 %><strong>円</strong>
+              </div>
+            </div>
+            <div class="mb-3 row align-items-center">
+              <label class="col-md-5 col-form-label text-end"><strong><%= f.label :is_active, "販売ステータス" %></strong></label>
+              <div class="col-md-4">
+                <!-- 販売中 -->
+                <%= f.radio_button :is_active, true %>
+                <strong><%= f.label :is_active_selling, "販売中" %></strong>
+                <!-- 販売中止 -->
+                <%= f.radio_button :is_active, false %>
+                <strong><%= f.label :is_active_stopped, "販売停止中" %></strong>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center gap-3">
+              <%= f.submit "新規登録", class: "btn btn-success m-2" %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
