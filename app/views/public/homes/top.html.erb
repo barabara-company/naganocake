@@ -1,9 +1,12 @@
-<div class="position-relative" style="background-image: url('<%= asset_path('naganocake5.jpg') %>'); background-size: cover; background-position: center; height: 400px;">
-  <!-- 背景画像の上に半透明のオーバーレイを追加 -->
-  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.5); z-index: -1;"></div>
+<div class="position-relative" style="height: 400px;">
+  <!-- 背景画像 -->
+  <div style="background-image: url('<%= asset_path('naganocake5.jpg') %>'); background-size: cover; background-position: center; height: 100%; filter: brightness(1); position: absolute; top: 0; left: 0; width: 100%; z-index: -1;"></div>
   
-  <!-- 文字を中央に配置、文字はオーバーレイの影響を受けない -->
-  <div class="d-flex justify-content-center align-items-center w-100 h-100 text-white text-center" style="z-index: 1;">
+  <!-- 背景画像の上に半透明のオーバーレイ -->
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.7); z-index: -1;"></div>
+  
+  <!-- 文字を中央に配置 -->
+  <div class="d-flex justify-content-center align-items-center w-100 h-100 text-white text-center" style="z-index: 1; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">
     <div>
       <p class="fs-4 fw-bold">ようこそ、ながのCAKEへ！</p>
       <p>このサイトは、ケーキ販売のECサイトになります。</p>
