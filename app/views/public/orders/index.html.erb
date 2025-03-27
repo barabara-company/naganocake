@@ -1,45 +1,36 @@
-<h1>注文履歴一覧</h1>
+<h5 class="text-center mt-4"><strong><span class="bg-light text-dark px-1">注文履歴一覧</span></strong></h5>
 
-<table>
-  <thead>
-    <tr>
-      <th>注文日</th>
-      <th>配送先</th>
-      <th>注文商品</th>
-      <th>支払金額</th>
-      <th>ステータス</th>
-      <th>注文詳細</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @orders.each do |order| %>
+<div class="container mt-4 d-flex justify-content-center">
+  <table class="table table-bordered p-3" style="width: 75%;">
+    <thead>
       <tr>
-        <!-- 注文日 -->
-        <td><%= order.created_at.in_time_zone('Asia/Tokyo').strftime("%Y/%m/%d") %></td>
-
-        <!-- 配送先 -->
-        <td>
-          〒<%= order.postal_code %><br>
-          <%= order.address %><br>
-          <%= order.name %>
-        </td>
-
-        <!-- 注文商品 -->
-        <td>
-          <% order.order_details.each do |order_detail| %>
-            <%= order_detail.item.name %><br>
-          <% end %>
-        </td>
-
-        <!-- 支払金額 -->
-        <td><%= number_with_delimiter(order.total_payment) %>円</td>
-
-        <!-- ステータス -->
-        <td><%= t("activerecord.attributes.order.status.#{order.status}") %></td>
-
-        <!-- 注文詳細 -->
-        <td><%= link_to "表示する", order_path(order) %></td>
+        <th style="background-color: #d3d3d3;">注文日</th>
+        <th style="background-color: #d3d3d3;">配送先</th>
+        <th style="background-color: #d3d3d3;">注文商品</th>
+        <th style="background-color: #d3d3d3;">支払金額</th>
+        <th style="background-color: #d3d3d3;">ステータス</th>
+        <th style="background-color: #d3d3d3;">注文詳細</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td><%= order.created_at.in_time_zone('Asia/Tokyo').strftime("%Y/%m/%d") %></td>
+          <td>
+            〒<%= order.postal_code %><br>
+            <%= order.address %><br>
+            <%= order.name %>
+          </td>
+          <td>
+            <% order.order_details.each do |order_detail| %>
+              <%= order_detail.item.name %><br>
+            <% end %>
+          </td>
+          <td><%= number_with_delimiter(order.total_payment) %>円</td>
+          <td><%= t("activerecord.attributes.order.status.#{order.status}") %></td>
+          <td><%= link_to "表示する", order_path(order), class: "btn btn-primary" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
