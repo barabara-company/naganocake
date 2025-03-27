@@ -18,7 +18,7 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :introduction, presence: true
   validates :price, presence: true
-  validates :is_active, presence: true
+  validates :is_active, inclusion: { in: [true, false] }
   validates :image, presence: true
   # 税込金額用メソッド 消費税10%計算
   def tax_included_price
