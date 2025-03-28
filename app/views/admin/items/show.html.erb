@@ -1,0 +1,52 @@
+<div class="container my-5">
+  <!-- 商品詳細の見出し -->
+  <div class="mb-4">
+    <h4 class="bg-light text-dark d-inline-block px-3 py-2 rounded " style="margin-left: 100px;">商品詳細</h4>
+  </div>
+
+  <div class="row">
+    <!-- 左側: 商品画像 -->
+    <div class="col-md-4 text-center">
+      <%= image_tag @item.image.variant(resize: "250x250").processed, class: "img-fluid rounded" %>
+    </div>
+
+    <!-- 右側: 商品情報 -->
+    <div class="col-md-8">
+      <div class="mb-3 row">
+        <div class="col-3 ">商品名</div>
+        <div class="col-5"><%= @item.name %></div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-3 ">商品説明</div>
+        <div class="col-5"><%= @item.introduction %></div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-3 ">ジャンル</div>
+        <div class="col-5"><%= @item.genre.name %></div>
+      </div>
+
+      <!-- 税込価格 -->
+      <div class="mb-3 row">
+        <div class="col-3 ">税込価格<br>(税抜価格)</div>
+        <div class="col-5 mt-3">
+          <%= "#{number_with_delimiter(@item.tax_included_price.floor)} (#{number_with_delimiter(@item.price.floor)}) 円" %>
+        </div>
+      </div>
+
+      <!-- 販売ステータス -->
+      <div class="mb-4 row">
+        <div class="col-3 ">販売ステータス</div>
+        <div class="col-5">
+          <strong class="<%= @item.is_active ? 'text-success' : 'text-secondary' %>">
+            <%= @item.is_active ? "販売中" : "販売停止中" %>
+          </strong>
+        </div>
+      </div>
+
+      <!-- 編集ボタン -->
+      <div class="mt-4">
+        <%= link_to "編集する", edit_admin_item_path(@item), class: "btn btn-success btn-lg ml-5" %>
+      </div>
+    </div>
+  </div>
+</div>

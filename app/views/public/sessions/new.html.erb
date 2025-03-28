@@ -1,0 +1,37 @@
+<div class="container d-flex justify-content-center">
+  <div class="w-50">
+
+    <h5><span class="bg-light text-dark px-1" style="line-height: 3;">ログイン</span></h5>
+
+    <p><span class="text-start bg-light text-dark px-1" style="line-height: 2;">会員の方はこちらからログイン</span></p>
+  
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="mb-3 d-flex align-items-center">
+        <%= f.label :email, "メールアドレス", class: "form-label text-nowrap me-3 w-25 text-end" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control w-50", placeholder: "sample@example.com" %>
+      </div>
+
+      <div class="mb-3 d-flex align-items-center">
+        <%= f.label :password, "パスワード", class: "form-label text-nowrap me-3 w-25 text-end" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-control w-50" %>
+      </div>
+
+
+      <div class="text-center mb-3">
+        <%= f.submit "ログイン", class: "btn btn-primary w-35" %>
+      </div>
+    <% end %>
+
+
+
+    <p><span class="bg-light text-dark px-1 mb-0 mt-3">会員登録がお済みでない方</span></p>
+
+    <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+      <%= render "public/shared/links" %>
+      <p class="mb-0">から新規登録を行なってください。</p>
+    </div>
+
+
+  </div>
+</div>
+

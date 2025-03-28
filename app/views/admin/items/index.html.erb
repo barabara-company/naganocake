@@ -1,0 +1,60 @@
+<h3 class="text-center mt-4"><strong><span class="bg-light text-dark px-1">商品一覧</span></strong></h3>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-end">
+    <%= link_to new_admin_item_path do %>
+      <i class="fas fa-plus-circle" style="font-size: 30px;"></i>
+    <% end %>
+  </div>
+</div>
+
+<div class="container d-flex justify-content-center mt-2">
+  <table class="table">
+    <thead class="border-top border-bottom">
+        <tr>
+          <th style="background-color: #d3d3d3;">商品ID</th>
+          <th style="background-color: #d3d3d3;">商品名</th>
+          <th style="background-color: #d3d3d3;">税抜価格</th>
+          <th style="background-color: #d3d3d3;">ジャンル</th>
+          <th style="background-color: #d3d3d3;">ステータス</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr>
+          <!-- 商品ID -->
+          <td><%= item.id %></td>
+
+          <!-- 商品名 showページへリンク-->
+          <td>
+            <%= link_to admin_item_path(item) do %>
+              <%= item.name %>
+            <% end %>
+          </td>
+
+          <!-- 税抜価格 number_with_delimiterで3桁ごとに , 入れる-->
+          <td><%= number_with_delimiter(item.price) %></td>
+
+          <!-- ジャンル -->
+          <td><%= item.genre.name %></td>
+
+          <!-- ステータス 三項演算子を使用 左true 右false -->
+          <td class="<%= item.is_active ? 'text-success' : 'text-muted' %>">
+            <%= item.is_active ? "販売中" : "販売停止中" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot class="border-top">
+      <tr>
+        <td colspan="5"></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<!-- ページネーション -->
+<div class="d-flex justify-content-center mt-1">
+  <%= paginate @items %>
+</div>
+

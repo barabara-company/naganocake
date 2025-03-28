@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="w-100" style="max-width: 600px;">
+
+    <h4 class="bg-light text-dark d-inline-block px-3 py-2 rounded ml-5 mt-3"><%= "#{@customer.last_name} #{@customer.first_name}"%>さんの会員情報編集</h4>
+    
+    <%= form_with model: @customer, url: admin_customer_path(@customer), method: :patch, class: "container" do |f| %>
+      <div class="row mb-2 py-2">
+        <div class="col-4 font-weight-bold">会員ID</div>
+        <div class="col-6"><%= @customer.id %></div>
+      </div>
+      
+      <div class="mb-3 d-flex align-items-center ms-5">
+        <label class="me-4" style="width: 140px;">氏名</label>
+        <%= f.text_field :last_name, class: "form-control w-25" %>
+        <%= f.text_field :first_name, class: "form-control w-25 ms-3", style: "margin-left: 70px;" %>
+      </div>
+    
+    
+      <div class="mb-3 d-flex align-items-center ms-5">
+        <label class="me-4" style="width: 140px;">フリガナ</label>
+        <%= f.text_field :last_name_kana, class: "form-control w-25 me-3 ms-4" %>
+        <%= f.text_field :first_name_kana, class: "form-control w-25",  style: "margin-left: 70px;" %>
+      </div>
+    
+      <div class="mb-3 d-flex align-items-center ms-5">
+        <label class="me-4" style="width: 140px;">郵便番号</label>
+        <%= f.text_field :postal_code, class: "form-control w-25 ms-4" %>
+      </div>
+    
+      <div class="mb-3 d-flex align-items-center ms-5">
+        <label class="me-4" style="width: 140px;">住所</label>
+        <%= f.text_field :address, class: "form-control w-50 ms-4" %>
+      </div>
+    
+      <div class="mb-3 d-flex align-items-center ms-5">
+        <label class="me-4" style="width: 140px;">電話番号</label>
+        <%= f.text_field :telephone_number, class: "form-control w-25 ms-4" %>
+      </div>
+    
+      <div class="mb-3 d-flex align-items-center ms-5">
+        <label class="me-4" style="width: 140px;">メールアドレス</label>
+        <%= f.text_field :email, class: "form-control w-50 ms-4" %>
+      </div>
+    
+      <div class="mb-3 d-flex align-items-center ms-5">
+        <label class="me-4" style="width: 140px;">会員ステータス</label>
+        <div class="ms-4">
+          <%= f.radio_button :is_active, "true", checked: (@customer.is_active == true) %> 有効
+          <%= f.radio_button :is_active, "false", checked: (@customer.is_active == false), class: "ms-4" %> 退会
+        </div>
+      </div>
+    
+      <div class="text-center">
+        <%= f.submit "変更を保存", class: "btn btn-success btn-lg ms-5" %>
+      </div>
+    <% end %>             
+  </div>  
+</div>

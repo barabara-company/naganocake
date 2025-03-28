@@ -1,0 +1,56 @@
+<div class="container my-5">
+  <div class="row justify-content-start"> <!-- justify-content-startで左寄せ -->
+    <div class="col-md-8 ms-3"> <!-- ms-3で全体を少し左寄せ -->
+      <h3 class=" my-4 bg-light d-inline-block px-3 ml-5">マイページ</h3>
+
+      <div class="d-flex align-items-center mb-3 ">
+        <h3 class="font-weight-bold mb-0 mr-4">登録情報</h3>
+        <%= link_to "編集する", edit_customer_path(current_customer), class: "btn btn-success ms-3" %>
+      </div>
+
+      <table class="table table-bordered">
+      <colgroup>
+        <col style="width: 33.33%;"> <!-- thの幅を3分の1に設定 -->
+        <col style="width: 66.67%;"> <!-- tdの幅を3分の2に設定 -->
+      </colgroup>
+      <tr>
+        <th class="bg-light">氏名</th>
+        <td><%= @customer.last_name %> <%= @customer.first_name %></td>
+      </tr>
+      <tr>
+        <th class="bg-light">カナ</th>
+        <td><%= @customer.last_name_kana %> <%= @customer.first_name_kana %></td>
+      </tr>
+      <tr>
+        <th class="bg-light">郵便番号</th>
+        <td><%= @customer.postal_code %></td>
+      </tr>
+      <tr>
+        <th class="bg-light">住所</th>
+        <td><%= @customer.address %></td>
+      </tr>
+      <tr>
+        <th class="bg-light">電話番号</th>
+        <td><%= @customer.telephone_number %></td>
+      </tr>
+      <tr>
+        <th class="bg-light">メールアドレス</th>
+        <td><%= @customer.email %></td>
+      </tr>
+    </table>
+
+      <!-- 配送先 -->
+      <div class="d-flex align-items-center mb-3">
+        <h3 class="font-weight-bold mb-0" style="margin-right: 52px;">配送先</h3>
+        <%= link_to "一覧を見る", addresses_path, class: "btn btn-primary ms-3" %>
+      </div>
+    
+
+      <!-- 注文履歴 -->
+      <div class="d-flex align-items-center mb-3">
+        <h3 class="font-weight-bold mb-0 mr-4">注文履歴</h3>
+        <%= link_to "一覧を見る", orders_path, class: "btn btn-primary ms-3" %>
+      </div>
+    </div>
+  </div>
+</div>

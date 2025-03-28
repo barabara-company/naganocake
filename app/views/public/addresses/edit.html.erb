@@ -1,0 +1,29 @@
+<div class="container my-5">
+  <h3 class="bg-light text-dark d-inline-block px-3 py-2 rounded" style="margin-left: 50px;">配送先編集</h3>
+
+  <%= form_with(model: @address, local: true, class: "mt-4") do |f| %>
+    <div class="mb-3 row">
+      <label class="col-md-3 col-form-label">郵便番号(ハイフンなし)</label>
+      <div class="col-md-9">
+        <%= f.text_field :postal_code, class: "form-control", style: "width: 200px;", required: true, pattern: '\d{7}', maxlength: 7, title: '7桁の数字のみ入力してください' %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label class="col-md-3 col-form-label">住所</label>
+      <div class="col-md-9">
+        <%= f.text_field :address, class: "form-control w-75", required: true %>
+      </div>
+    </div>
+
+    <div class="mb-3 row align-items-center">
+      <label class="col-md-3 col-form-label">宛名</label>
+      <div class="col-md-6">
+      <%= f.text_field :name, class: "form-control", style: "width: 200px;", required: true %>
+      </div>
+      <div class="col-md-3 text-end">
+        <%= f.submit '変更内容を保存', class: "btn btn-success" %>
+      </div>
+    </div>
+  <% end %>
+</div>

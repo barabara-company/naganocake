@@ -1,0 +1,27 @@
+<h4 style="width: 80%; margin: 0 auto;"><span class="p-2 bg-light d-inline-block mt-3 mb-3">注文履歴一覧</span></h4>
+<table class="table table-hover" style="border-collapse: collapse; border: none; width: 80%; margin: 0 auto;">
+  <thead class="thead-light">
+    <tr>
+      <th style="border-left: none; border-right: none;">購入日時</th>
+      <th style="border-left: none; border-right: none;">購入者</th>
+      <th style="border-left: none; border-right: none;">注文個数</th>
+      <th style="border-left: none; border-right: none;">注文ステータス</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td style="border-left: none; border-right: none;">
+          <%= link_to order.created_at.in_time_zone('Asia/Tokyo').strftime("%Y/%m/%d %H:%M"), admin_order_path(order), style: "color: black; text-decoration: underline;" %>
+        </td>
+        <td style="border-left: none; border-right: none;"><%= "#{order.customer.last_name} #{order.customer.first_name}" %></td>
+        <td style="border-left: none; border-right: none;"><%= order.order_details.sum(:amount) %></td>
+        <td style="border-left: none; border-right: none;"><%= t("activerecord.attributes.order.status.#{order.status}") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-3">
+  <%= paginate @orders %>
+</div>
