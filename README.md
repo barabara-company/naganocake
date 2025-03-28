@@ -1,24 +1,67 @@
-# README
+# NaganoCake
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+NaganoCakeは、ケーキ販売のECサイトです。このアプリでは、ケーキの商品一覧を閲覧したり、カートに追加して購入することができます。
 
-Things you may want to cover:
+## アプリの概要
 
-* Ruby version
+- **目的**: ケーキ販売のECサイトを構築するための学習プロジェクト。
+- **主な機能**:
+  - 商品一覧の表示
+  - 商品の詳細ページ
+  - カート機能
+  - 会員登録・ログイン機能
+  - 管理者による商品管理
 
-* System dependencies
+### ER図
+以下は本アプリのデータベース設計を示すER図です：
 
-* Configuration
+![ER図](./assets/images/ER.jpg)
 
-* Database creation
+### スクリーンショット
+- 商品一覧ページ：
+  ![商品一覧](./assets/images/.jpg)
+- カートページ：
+  ![カート](./assets/images/.jpg)
 
-* Database initialization
 
-* How to run the test suite
+## 開発環境
 
-* Services (job queues, cache servers, search engines, etc.)
+- **Ruby バージョン**: 3.0.0
+- **Rails バージョン**: 6.1.4
+- **データベース**: SQLite3 (開発環境)
+- **その他**:
+  - Bootstrap 5 を使用してデザインを整えています。
 
-* Deployment instructions
+## インストール方法
 
-* ...
+1. リポジトリをクローンします。
+
+  ```bash
+  git clone https://github.com/your-username/naganocake.git
+  cd naganocake
+
+2. 必要なGEMをインストールします。
+  bundle install
+
+3. データベースをセットアップします。
+  rails db:create
+  rails db:migrate
+
+4. サーバーを起動します。
+  rails server
+
+5. ブラウザでhttp://localhost:3000にアクセスしてください。
+
+  使用方法
+  一般ユーザー:
+  商品を閲覧し、カートに追加して購入できます。
+  会員登録を行うことで購入機能が利用可能になります。
+  管理者:
+  商品の追加・編集・削除が可能です。
+  会員情報や注文履歴の管理ができます。
+  今後の課題
+  デザインの改善
+  テストコードの追加
+  検索機能の実装
+  ライセンス
+  このプロジェクトは学習目的で作成されたものであり、商用利用は想定していません。
