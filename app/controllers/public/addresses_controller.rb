@@ -5,8 +5,8 @@ module Public
     before_action :authenticate_customer!
     
       def index
-      @addresses = Address.all
-      @new_address = Address.new
+        @addresses = current_customer.addresses # ログイン中のユーザーのアドレスのみ取得
+        @new_address = Address.new
     end
 
     def create
