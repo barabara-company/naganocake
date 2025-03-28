@@ -18,21 +18,21 @@
 
 <h2>新着商品</h2>
 <div class="row">
-  <% @items.each do |item| %>
-    <div class="col-md-3 mb-4"> 
-      <% if item.image.present? %>
-        <%= link_to item_path(item) do %>
-          <%= image_tag item.image, class: "img-fluid w-100" %>
-        <% end %>
+<% @items.each do |item| %>
+  <div class="col-md-3 mb-4"> 
+    <% if item.image.present? %>
+      <%= link_to item_path(item) do %>
+        <%= image_tag item.image.variant(resize_to_fill: [270, 200]).processed %>
       <% end %>
-      <h5><%= item.name %></h5>
-      <p>¥<%= number_with_delimiter(item.tax_included_price.floor) %></p>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+    <h5><%= item.name %></h5>
+    <p>¥<%= number_with_delimiter(item.tax_included_price.floor) %></p>
+  </div>
+<% end %></div>
 
 
 <div class="d-flex justify-content-end">
   <%= link_to 'すべての商品を見る＞', items_path %>
 </div>
+
 
