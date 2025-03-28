@@ -15,7 +15,7 @@ NaganoCakeは、ケーキ販売のECサイトです。このアプリでは、�
 ### ER図
 以下は本アプリのデータベース設計を示すER図です：
 
-![ER図](./assets/images/ER.jpg)
+  ![ER図](./assets/images/ER.png)
 
 ### スクリーンショット
 - 商品一覧ページ：
